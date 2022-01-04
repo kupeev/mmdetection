@@ -19,7 +19,7 @@ model.show_result(img, result)
 # or save the visualization results to image files
 model.show_result(img, result, out_file='my_result.jpg')
 
-if 0:
+if 1:
     # test a video and show the results
     video = mmcv.VideoReader('demo.mp4')
     for frame in video:
@@ -28,19 +28,4 @@ if 0:
 
 
 tmp=10
-
-config_file = '../configs/faster_rcnn/my_faster_rcnn_r50_fpn_1x_coco.py'
-cfg = mmcv.Config.fromfile(config_file)
-
-# following https://colab.research.google.com/drive/1GaOdh6z5yp2YYsc0GSHFGlD5R7f4y-u9?usp=sharing#scrollTo=LtOODHe52Ehx
-
-from train import train_detector
-
-from mmdet.datasets import build_dataset
-from mmdet.models import build_detector
-from mmdet.apis import train_detector
-
-datasets = [build_dataset(cfg.data.train)]
-
-train_detector(model,datasets, cfg)
 
