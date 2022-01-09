@@ -226,11 +226,14 @@ datasets = [build_dataset(cfg.data.train)]
 cfg.data.samples_per_gpu = 1
 cfg.data.workers_per_gpu = 0
 
-cfg.custom_imports = dict(imports=['mmdet.core.utils.hook1'], allow_failed_imports=False)
-cfg.custom_hooks = [
-    #dict(type='hook1', a=a_value, b=b_value)
-    dict(type='hook1')
-]
+# does not work, thus use __init__
+if 0:
+    cfg.custom_imports = dict(imports=['mmdet.core.utils.my_hook'], allow_failed_imports=False)
+
+if 1:
+    cfg.custom_hooks = [
+        dict(type='MyHook', a=[], b=[])
+    ]
 
 # Build the detector
 model = build_detector(

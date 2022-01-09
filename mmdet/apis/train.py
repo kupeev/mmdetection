@@ -205,5 +205,10 @@ def train_detector(model,
     if cfg.resume_from:
         runner.resume(cfg.resume_from)
     elif cfg.load_from:
+        # qqq as in my_hook
+        if 0:
+            runner.model.module.backbone.conv1.weight[n_flt].cpu()
+            # n_flt=10;runner.model.module.backbone.conv1.weight[n_flt].cpu()[0,0:3,0:3]
         runner.load_checkpoint(cfg.load_from)
+        tmp=10
     runner.run(data_loaders, cfg.workflow)
