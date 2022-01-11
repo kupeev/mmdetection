@@ -15,6 +15,8 @@ from mmdet.datasets import (build_dataloader, build_dataset,
                             replace_ImageToTensor)
 from mmdet.utils import find_latest_checkpoint, get_root_logger
 
+from mmdet.core.utils.my_misc import d0a
+
 
 def init_random_seed(seed=None, device='cuda'):
     """Initialize random seed.
@@ -206,9 +208,45 @@ def train_detector(model,
         runner.resume(cfg.resume_from)
     elif cfg.load_from:
         # qqq as in my_hook
-        if 0:
-            runner.model.module.backbone.conv1.weight[n_flt].cpu()
-            # n_flt=10;runner.model.module.backbone.conv1.weight[n_flt].cpu()[0,0:3,0:3]
+
+        # https://cv-tricks.com/keras/understand-implement-resnets/
+        # https://discuss.pytorch.org/t/accessing-layers-inside-bottleneck-module-of-pretrained-resnet-model/16287
+        nsublayer = 0
+        for sublayer in runner.model.module.backbone.layer4.children():
+            print('--------------- nsublayer=' + str(nsublayer))
+            print(sublayer)
+            nsublayer += 1
+            if nsublayer == 2:
+                sublayer.conv2.weight.shape
+                #   Out[35]: torch.Size([512, 512, 3, 3])
+                nflt = 99
+                ninpchallels = 0, 299, 499
+                for ninpchallel in ninpchallels:
+                    flt = sublayer.conv2.weight[ninpchallel, nflt, :,:].cpu().detach().numpy()
+                    d0a(flt,save_to_and_close_the_pdf = 1, di_sav_dbg = '/home/konstak/projects2/mmdetection/demo', \
+                            pdf_prefix = '', fn = 'before__layer4_' + 'nsublayer=' + str(nsublayer) + '_nflt=' + str(nflt) + '_ninpchallel=' + str(ninpchallel) )
+
         runner.load_checkpoint(cfg.load_from)
+
+
+
+        nsublayer = 0
+        for sublayer in runner.model.module.backbone.layer4.children():
+            print('--------------- nsublayer=' + str(nsublayer))
+            print(sublayer)
+            nsublayer += 1
+            if nsublayer == 2:
+                sublayer.conv2.weight.shape
+                #   Out[35]: torch.Size([512, 512, 3, 3])
+                nflt = 99
+                ninpchallels = 0, 299, 499
+                for ninpchallel in ninpchallels:
+                    flt = sublayer.conv2.weight[ninpchallel, nflt, :,:].cpu().detach().numpy()
+                    d0a(flt,save_to_and_close_the_pdf = 1, di_sav_dbg = '/home/konstak/projects2/mmdetection/demo', \
+                            pdf_prefix = '', fn = 'after__layer4_' + 'nsublayer=' + str(nsublayer) + '_nflt=' + str(nflt) + '_ninpchallel=' + str(ninpchallel) )
+
+
+
+
         tmp=10
     runner.run(data_loaders, cfg.workflow)
