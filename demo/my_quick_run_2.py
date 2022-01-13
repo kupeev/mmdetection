@@ -236,6 +236,9 @@ if 1:
         dict(type='MyHook', a=[], b=[])
     ]
 
+cfg.mesima_1 = 0
+cfg.mesima_2 = 1
+
 # Build the detector
 model = build_detector(
     cfg.model, train_cfg=cfg.get('train_cfg'), test_cfg=cfg.get('test_cfg'))
