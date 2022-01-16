@@ -15,7 +15,7 @@ from mmdet.datasets import (build_dataloader, build_dataset,
                             replace_ImageToTensor)
 from mmdet.utils import find_latest_checkpoint, get_root_logger
 
-from mmdet.core.utils.my_misc import d0a
+from mmdet.core.utils.my_misc import d0a, global_vars
 from mmdet.core.utils.my_hook_2 import SaveLayerOutput
 
 
@@ -233,10 +233,15 @@ def train_detector(model,
             save_layer_output = SaveLayerOutput()
             hook_handles = []
             for layer in model.modules():
-                if isinstance(layer, torch.nn.modules.conv.Conv2d):
-                    handle = layer.register_forward_hook(save_layer_output)
-                    hook_handles.append(handle)
-            cfg.save_layer_output = save_layer_output #albeit ...
+                if 0:
+                    if isinstance(layer, torch.nn.modules.conv.Conv2d):
+                        handle = layer.register_forward_hook(save_layer_output)
+                        hook_handles.append(handle)
+                elif 1:
+                    if 'rpn_head' in str(type(layer)):
+                        handle = layer.register_forward_hook(save_layer_output)
+                        hook_handles.append(handle)
+                    global_vars.save_layer_output = save_layer_output
         #if cfg.mesima_2:
 
         runner.load_checkpoint(cfg.load_from)

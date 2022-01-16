@@ -10,6 +10,7 @@ from mmcv.runner import BaseModule, auto_fp16
 
 from mmdet.core.visualization import imshow_det_bboxes
 
+from mmdet.core.utils.my_misc import d0a, global_vars
 
 class BaseDetector(BaseModule, metaclass=ABCMeta):
     """Base class for detectors."""
@@ -172,12 +173,40 @@ class BaseDetector(BaseModule, metaclass=ABCMeta):
             re =  self.forward_train(img, img_metas, **kwargs)
 
             TMP=10
+            tmp_local_global_vars = global_vars
+            if 1:#cfg.mesima_2:
+
+                tmp=10
+
+                """
+                
+                
+                len(global_vars.save_layer_output.outputs)
+                Out[2]: 1
+                len(global_vars.save_layer_output.outputs[0])
+                Out[3]: 2
+                len(global_vars.save_layer_output.outputs[0][0])
+                Out[4]: 5
+                len(global_vars.save_layer_output.outputs[0][1])
+                Out[5]: 5
+                len(global_vars.save_layer_output.outputs[0][0][0])
+                Out[6]: 1
+                global_vars.save_layer_output.outputs[0][0][0].shape
+                Out[7]: torch.Size([1, 3, 104, 336])
+                
+                global_vars.save_layer_output.outputs[0][0][0][0].cpu().detach().numpy().shape
+                (3, 104, 336)
+                
+                d0a( global_vars.save_layer_output.outputs[0][0][0][0].cpu().detach().numpy()[0,:,:]  )
+                d0a( global_vars.save_layer_output.outputs[0][0][0][0].cpu().detach().numpy()[1,:,:]  )
+                
+                
+                                                
+                """
+
 
             return re
-            """
-            if cfg.mesima_2:
-                save_layer_output
-            """
+
 
         else:
             return self.forward_test(img, img_metas, **kwargs)

@@ -21,6 +21,11 @@ class struct():
     pass
 
 
+def global_vars():
+    pass
+    return
+
+
 def t2i(t):
     # swap color axis because
     # torch image: C x H x W
