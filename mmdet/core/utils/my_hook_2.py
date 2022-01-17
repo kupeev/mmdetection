@@ -12,7 +12,7 @@ class SaveLayerOutput:
 
     def __call__(self, module, module_in, module_out):
         print('len(self.outputs)='+str(len(self.outputs)))
-        self.outputs.append(module_out)
+        self.outputs = module_out
 
         """
         self.outputs[0][0][0][0][2].shape

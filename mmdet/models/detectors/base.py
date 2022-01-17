@@ -182,25 +182,47 @@ class BaseDetector(BaseModule, metaclass=ABCMeta):
                 
                 
                 len(global_vars.save_layer_output.outputs)
-                Out[2]: 1
-                len(global_vars.save_layer_output.outputs[0])
-                Out[3]: 2
-                len(global_vars.save_layer_output.outputs[0][0])
-                Out[4]: 5
-                len(global_vars.save_layer_output.outputs[0][1])
-                Out[5]: 5
-                len(global_vars.save_layer_output.outputs[0][0][0])
-                Out[6]: 1
-                global_vars.save_layer_output.outputs[0][0][0].shape
-                Out[7]: torch.Size([1, 3, 104, 336])
+                Out[2]: 2:
+                1th: score
+                2th: bb
                 
-                global_vars.save_layer_output.outputs[0][0][0][0].cpu().detach().numpy().shape
-                (3, 104, 336)
+                    len(global_vars.save_layer_output.outputs[0]) 5
+                    Out[3]: DECR BY STRIDES: 5 IN EVERY: 3 = SCALE=SIZE x RATIO 
+                        global_vars.save_layer_output.outputs[0][0].shape  torch.Size([1, 3, 104, 336])
+                        global_vars.save_layer_output.outputs[0][1].shape  torch.Size([1, 3, 52, 168])
+                        global_vars.save_layer_output.outputs[0][2].shape  torch.Size([1, 3, 26, 84])
+                        global_vars.save_layer_output.outputs[0][3].shape  torch.Size([1, 3, 13, 42)
+                        global_vars.save_layer_output.outputs[0][4].shape  torch.Size([1, 3, 7, 21])
                 
-                d0a( global_vars.save_layer_output.outputs[0][0][0][0].cpu().detach().numpy()[0,:,:]  )
-                d0a( global_vars.save_layer_output.outputs[0][0][0][0].cpu().detach().numpy()[1,:,:]  )
+                    len(global_vars.save_layer_output.outputs[0]) 5
+                    Out[3]: DECR BY STRIDES: 5 IN EVERY: 12 = 3x4 = (SCALE=SIZE x RATIO)x4 
+                        global_vars.save_layer_output.outputs[1][0].shape  torch.Size([1, 12, 104, 336])
+                        global_vars.save_layer_output.outputs[1][1].shape  torch.Size([1, 12, 52, 168])
+                        global_vars.save_layer_output.outputs[1][2].shape  torch.Size([1, 12, 26, 84])
+                        global_vars.save_layer_output.outputs[1][3].shape  torch.Size([1, 12, 13, 42)
+                        global_vars.save_layer_output.outputs[1][4].shape  torch.Size([1, 12, 7, 21])
+                        
+                    d0a( global_vars.save_layer_output.outputs[0][0][0].cpu().detach().numpy()[0,:,:]  )
+                    d0a( global_vars.save_layer_output.outputs[0][0][0].cpu().detach().numpy()[1,:,:]  )
+                    d0a( global_vars.save_layer_output.outputs[0][0][0].cpu().detach().numpy()[2,:,:]  )
                 
-                
+                    d0a( global_vars.save_layer_output.outputs[1][0][0].cpu().detach().numpy()[7,:,:]  )
+
+                    ----------- pdf ---------                
+                          
+                    out = global_vars.save_layer_output.outputs[0][0][0].cpu().detach().numpy()[0,:,:]                          
+                    d0a(out,save_to_and_close_the_pdf = 1, di_sav_dbg = '/home/konstak/projects2/mmdetection/demo', suptitle = 'obj_score_scaleratio0', fn = 'obj_score_scaleratio 0' )
+
+                    out = global_vars.save_layer_output.outputs[0][0][0].cpu().detach().numpy()[1,:,:]                          
+                    d0a(out,save_to_and_close_the_pdf = 1, di_sav_dbg = '/home/konstak/projects2/mmdetection/demo', suptitle = 'obj_score_scaleratio1', fn = 'obj_score_scaleratio 1' )
+                          
+                    out = global_vars.save_layer_output.outputs[0][0][0].cpu().detach().numpy()[2,:,:]                          
+                    d0a(out,save_to_and_close_the_pdf = 1, di_sav_dbg = '/home/konstak/projects2/mmdetection/demo', suptitle = 'obj_score_scaleratio2', fn = 'obj_score_scaleratio 2' )
+                          
+                    out = global_vars.save_layer_output.outputs[1][0][0].cpu().detach().numpy()[7,:,:]                          
+                    d0a(out,save_to_and_close_the_pdf = 1, di_sav_dbg = '/home/konstak/projects2/mmdetection/demo', suptitle = 'bb_score_scaleratio7', fn = 'bb_score_scaleratio 7' )
+                    out = global_vars.save_layer_output.outputs[1][0][0].cpu().detach().numpy()[11,:,:]                          
+                    d0a(out,save_to_and_close_the_pdf = 1, di_sav_dbg = '/home/konstak/projects2/mmdetection/demo', suptitle = 'bb_score_scaleratio11', fn = 'bb_score_scaleratio 11' )
                                                 
                 """
 
