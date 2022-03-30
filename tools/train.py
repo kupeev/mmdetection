@@ -97,6 +97,33 @@ def main():
     args = parse_args()
 
     cfg = Config.fromfile(args.config)
+
+
+    if 1:
+        dataset_type = 'CocoDataset'
+        data_root = 'data/coco/'
+        test_pipeline = cfg['test_pipeline']
+        train_pipeline = cfg['train_pipeline']
+        cfg.data = dict(
+            samples_per_gpu=2,
+            workers_per_gpu=2,
+            train=dict(
+                type=dataset_type,
+                ann_file='/home/konstak/data/mmdet/data/train/COCO_train_annos.json',
+                img_prefix='/home/konstak/data/mmdet/data/train/',
+                pipeline=train_pipeline),
+            val=dict(
+                type=dataset_type,
+                ann_file='/home/konstak/data/mmdet/data/val/COCO_val_annos.json',
+                img_prefix='/home/konstak/data/mmdet/data/val/',
+                pipeline=test_pipeline),
+            test=dict(
+                type=dataset_type,
+                #didnt find test json
+                ann_file='/home/konstak/data/mmdet/data/train/COCO_train_annos.json',
+                img_prefix='/home/konstak/data/mmdet/data/train/',
+                pipeline=test_pipeline))
+
     if args.cfg_options is not None:
         cfg.merge_from_dict(args.cfg_options)
 

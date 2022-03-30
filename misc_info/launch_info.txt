@@ -19,6 +19,6 @@ script path:
 /home/konstak/projects2/mmdetection/venv_mmdet/lib/python3.8/site-packages/torch/distributed/launch.py
 
 parameters:
---nproc_per_node=1 --master_port=29500 ./tools/train.py configs/ld/ld_r50_gflv1_r101_fpn_coco_1x.py --launcher pytorch
-
+    OLD --nproc_per_node=1 --master_port=29500 ./tools/train.py configs/ld/ld_r50_gflv1_r101_fpn_coco_1x.py --launcher pytorch
+    NEW --nproc_per_node=1 --master_port=29500 ./tools/train.py configs/michael/davidk/config_ld.py --launcher pytorch
 
