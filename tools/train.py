@@ -99,9 +99,15 @@ def main():
     cfg = Config.fromfile(args.config)
 
 
-    if 1:
+    if 1: #qq
+
+        num_classes = 5
+        CLASSES = ['headlamp', 'rear_bumper', 'door', 'hood', 'front_bumper']
+
+        cfg.model['bbox_head']['num_classes'] = num_classes
+
         dataset_type = 'CocoDataset'
-        data_root = 'data/coco/'
+        #data_root = 'data/coco/'
         test_pipeline = cfg['test_pipeline']
         train_pipeline = cfg['train_pipeline']
         cfg.data = dict(
@@ -109,20 +115,29 @@ def main():
             workers_per_gpu=2,
             train=dict(
                 type=dataset_type,
-                ann_file='/home/konstak/data/mmdet/data/train/COCO_train_annos.json',
+                classes=CLASSES,
+                ann_file='/home/konstak/data/mmdet/data/train/COCO_mul_train_annos.json',
                 img_prefix='/home/konstak/data/mmdet/data/train/',
                 pipeline=train_pipeline),
             val=dict(
                 type=dataset_type,
-                ann_file='/home/konstak/data/mmdet/data/val/COCO_val_annos.json',
-                img_prefix='/home/konstak/data/mmdet/data/val/',
+                classes=CLASSES,
+                ann_file='/home/konstak/data/mmdet/data/train/COCO_mul_train_annos.json',
+                img_prefix='/home/konstak/data/mmdet/data/train/',
                 pipeline=test_pipeline),
             test=dict(
                 type=dataset_type,
+                classes=CLASSES,
                 #didnt find test json
-                ann_file='/home/konstak/data/mmdet/data/train/COCO_train_annos.json',
+                ann_file='/home/konstak/data/mmdet/data/train/COCO_mul_train_annos.json',
                 img_prefix='/home/konstak/data/mmdet/data/train/',
                 pipeline=test_pipeline))
+
+
+
+
+        tmp=10
+    #if 1:
 
     if args.cfg_options is not None:
         cfg.merge_from_dict(args.cfg_options)
