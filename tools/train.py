@@ -111,8 +111,8 @@ def main():
         test_pipeline = cfg['test_pipeline']
         train_pipeline = cfg['train_pipeline']
         cfg.data = dict(
-            samples_per_gpu=2,
-            workers_per_gpu=2,
+            samples_per_gpu=1,
+            workers_per_gpu=1,
             train=dict(
                 type=dataset_type,
                 classes=CLASSES,
@@ -132,10 +132,6 @@ def main():
                 ann_file='/home/konstak/data/mmdet/data/train/COCO_mul_train_annos.json',
                 img_prefix='/home/konstak/data/mmdet/data/train/',
                 pipeline=test_pipeline))
-
-
-
-
         tmp=10
     #if 1:
 
@@ -244,7 +240,5 @@ def main():
         validate=(not args.no_validate),
         timestamp=timestamp,
         meta=meta)
-
-
 if __name__ == '__main__':
     main()
