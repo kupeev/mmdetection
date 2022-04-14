@@ -10,6 +10,8 @@ from mmcv.runner import BaseModule, auto_fp16
 
 from mmdet.core.visualization import imshow_det_bboxes
 
+from demo.davidk.general_dk import *
+
 
 class BaseDetector(BaseModule, metaclass=ABCMeta):
     """Base class for detectors."""
@@ -167,6 +169,9 @@ class BaseDetector(BaseModule, metaclass=ABCMeta):
         if torch.onnx.is_in_onnx_export():
             assert len(img_metas) == 1
             return self.onnx_export(img[0], img_metas[0])
+
+        if 0:
+            d0a(t2i(img[0]))
 
         if return_loss:
             return self.forward_train(img, img_metas, **kwargs)
