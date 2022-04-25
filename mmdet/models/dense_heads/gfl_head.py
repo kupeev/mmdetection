@@ -12,6 +12,7 @@ from mmdet.core.utils import filter_scores_and_topk
 from ..builder import HEADS, build_loss
 from .anchor_head import AnchorHead
 
+from demo.davidk.general_dk import *
 
 class Integral(nn.Module):
     """A fixed layer for calculating integral result from distribution.
@@ -524,6 +525,26 @@ class GFLHead(AnchorHead):
         # split targets to a list w.r.t. multiple levels
         anchors_list = images_to_levels(all_anchors, num_level_anchors)
         labels_list = images_to_levels(all_labels, num_level_anchors)
+        """
+        ##
+        num_level_anchors  [10000, 2500, 625, 169, 49]
+        len(all_labels[0]) 13343
+        torch.unique(all_labels[0]) tensor([0, 1, 5], device='cuda:0')
+        all_anchors[0].shape torch.Size([13343, 4])
+        
+        label_weights_list[0].shape Out[21]: torch.Size([1, 10000])
+        label_weights_list[1].shape Out[22]: torch.Size([1, 2500])
+        label_weights_list[2].shape Out[23]: torch.Size([1, 625])
+        label_weights_list[3].shape Out[24]: torch.Size([1, 169])
+        label_weights_list[4].shape Out[25]: torch.Size([1, 49])
+        torch.unique(label_weights_list[0]) Out[26]: tensor([1.], device='cuda:0')
+        torch.unique(label_weights_list[1]) Out[27]: tensor([1.], device='cuda:0')
+        torch.unique(label_weights_list[2]) Out[28]: tensor([1.], device='cuda:0')
+        torch.unique(label_weights_list[3]) Out[29]: tensor([1.], device='cuda:0')
+        
+        len(all_label_weights[0])         Out[38]: 13343
+        torch.unique(all_label_weights[0])   Out[39]: tensor([1.], device='cuda:0')
+        """
         label_weights_list = images_to_levels(all_label_weights,
                                               num_level_anchors)
         bbox_targets_list = images_to_levels(all_bbox_targets,

@@ -18,6 +18,8 @@ from mmdet.datasets import build_dataset
 from mmdet.models import build_detector
 from mmdet.utils import collect_env, get_root_logger, setup_multi_processes
 
+import numpy as np
+
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
     parser.add_argument('config', help='train config file path')
@@ -100,6 +102,9 @@ def main():
 
 
     if 1: #qq
+
+        np.random.seed(seed=0)
+        torch.manual_seed(0)
 
         num_classes = 5
         CLASSES = ['headlamp', 'rear_bumper', 'door', 'hood', 'front_bumper']

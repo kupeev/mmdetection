@@ -19,8 +19,8 @@ import cv2
 
 import matplotlib
 #matplotlib.use('WebAgg')
-#matplotlib.use('Agg') #otherwise we may get ## matplotlib.use('Agg')
-#matplotlib.use('Agg') #otherwise we may get ## matplotlib.use('Agg')
+#matplotlib.use('Agg') #otherwise we may get matplotlib.use('Agg')
+#matplotlib.use('Agg') #otherwise we may get matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import warnings
@@ -32,6 +32,26 @@ class struct():
     pass
 
 eps = np.finfo(np.float32).eps
+
+
+def find_t(val, lst):
+    #find(5, [1, 2, 10]) == []
+    #find(10, [1, 2, 10,10]) == [2,3]
+    """
+    lst = []
+    lst.append(1)
+    lst.append(2)
+    lst.append(10)
+    val = 3
+    """
+    ii = []
+    for (i, val1) in enumerate(lst):
+        try:
+            if val1 == val:
+                ii.append(i)
+        except:
+            tmp=10
+    return ii
 
 def embedRect(im, tlx, tly, brx, bry, meth='const', val=0, randrange=[220, 240], Type='uint8'):
     # fills rectangle in the im, im may be empty

@@ -124,6 +124,7 @@ class LDHead(GFLHead):
                 soft_corners,
                 weight=weight_targets[:, None].expand(-1, 4).reshape(-1),
                 avg_factor=4.0)
+            tmp=10
 
         else:
             loss_ld = bbox_pred.sum() * 0
@@ -218,6 +219,7 @@ class LDHead(GFLHead):
             featmap_sizes, img_metas, device=device)
         label_channels = self.cls_out_channels if self.use_sigmoid_cls else 1
 
+        ## targets innthe sense of gt
         cls_reg_targets = self.get_targets(
             anchor_list,
             valid_flag_list,
