@@ -94,12 +94,10 @@ def parse_args():
 
     return args
 
-
 def main():
     args = parse_args()
 
     cfg = Config.fromfile(args.config)
-
 
     if 1: #qq
 
