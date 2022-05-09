@@ -1,4 +1,65 @@
-﻿Apr13.2022,
+﻿Apr28.2022
+
+
+Apr26.2022
+
+    REMS
+
+        forward_train, kd_one_stage.py: 72
+        losses = self.bbox_head.forward_train(x, out_teacher, img_metas,
+                                              gt_bboxes, gt_labels,
+                                              gt_bboxes_ignore)
+
+
+    'forward_train' in dir(self.bbox_head)
+    Out[4]: True
+    'forward_train' in dir(self.backbone)
+    Out[5]: False
+
+
+    MAIN
+        shlita
+            svyaz s obsh: till 09:45: obsh
+            kakie klasses delayut
+
+        pict:
+            chto oni VS chto ya
+
+        tbd:
+            moy maslul
+
+
+        zazubrit:
+            ich losses
+    AUX
+        posmotret ich vesa
+
+
+
+    ==========================
+    out_teacher = self.teacher_model.bbox_head(teacher_x)
+    - - - -
+    self.teacher_model = build_detector(teacher_config['model'])
+    - - - -
+
+    LDHead(GFLHead(AnchorHead)):
+
+        self():  feat->(classes, softtargets)
+
+    KnowledgeDistillationSingleStageDetector:
+        self.teacher_model.bbox_head : teacher feat -> (classes, softtargets)
+
+
+    cls_scores (list[Tensor]): Cls and quality scores for each scale
+
+
+    def loss in ld_head.py
+
+    ======================
+
+
+
+Apr25.2022
 
     train_step() base.py //self is BaseDetector
         losses = self(**data)
@@ -86,14 +147,6 @@ train_step, base.py
     losses = self(**data)
         losses.keys()
         Out[3]: dict_keys(['loss_cls', 'loss_bbox', 'loss_dfl', 'loss_ld'])
-
-
-        WHERE IS LOSS_KD?!!
-
-
--------------------
-
-
 
 
 x = self.backbone(img) in /home/konstak/projects2/mmdetection/mmdet/models/detectors/single_stage.py

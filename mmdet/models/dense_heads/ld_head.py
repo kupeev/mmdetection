@@ -80,6 +80,7 @@ class LDHead(GFLHead):
                     & (labels < bg_class_ind)).nonzero().squeeze(1)
         score = label_weights.new_zeros(labels.shape)
 
+        # qq
         if len(pos_inds) > 0:
             pos_bbox_targets = bbox_targets[pos_inds]
             pos_bbox_pred = bbox_pred[pos_inds]
@@ -170,6 +171,7 @@ class LDHead(GFLHead):
             - proposal_list (list[Tensor]): Proposals of each image.
         """
         outs = self(x)
+        # qq
         soft_target = out_teacher[1]
         if gt_labels is None:
             loss_inputs = outs + (gt_bboxes, soft_target, img_metas)
@@ -219,7 +221,7 @@ class LDHead(GFLHead):
             featmap_sizes, img_metas, device=device)
         label_channels = self.cls_out_channels if self.use_sigmoid_cls else 1
 
-        ## targets innthe sense of gt
+        ## targets in the sense of gt, not only: label list!
         cls_reg_targets = self.get_targets(
             anchor_list,
             valid_flag_list,
