@@ -135,6 +135,8 @@ def main():
                 ann_file='/home/konstak/data/mmdet/data/train/COCO_mul_train_annos.json',
                 img_prefix='/home/konstak/data/mmdet/data/train/',
                 pipeline=test_pipeline))
+        cfg.custom_imports = dict(imports=['mmdet.models.dense_heads.ld_head_double'], allow_failed_imports=False)
+
         tmp=10
     #if 1:
 

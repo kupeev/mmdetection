@@ -1,4 +1,4 @@
-_base_ = ['/home/konstak/projects2/mmdetection/configs/ld/ld_r50_gflv1_r101_fpn_coco_1x.py']
+_base_ = ['/home/konstak/projects2/mmdetection/configs/ld/ld_r50_gflv1_r101_fpn_coco_1x_double.py']
 
 
 """

@@ -21,7 +21,7 @@ class LDHeadDouble(LDHead):
                      T=10),
                  **kwargs):
 
-        super(LDHeadDouble, self).__init__(num_classes, in_channels, **kwargs)
+        super(LDHead, self).__init__(num_classes, in_channels, **kwargs)
         self.loss_ld = build_loss(loss_ld)
         self.var = 20
 
@@ -160,6 +160,7 @@ class LDHeadDouble(LDHead):
             - losses (dict[str, Tensor]): A dictionary of loss components.
             - proposal_list (list[Tensor]): Proposals of each image.
         """
+        #super(LDHead, self).forward_train()
         outs = self(x)
         # qq
         soft_target = out_teacher[1]
