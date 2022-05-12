@@ -170,12 +170,50 @@ class LDHead(GFLHead):
             - losses (dict[str, Tensor]): A dictionary of loss components.
             - proposal_list (list[Tensor]): Proposals of each image.
         """
+
+        """
+            if self is instance of LDHead
+                outs = {tuple: 2}
+                0 = {list: 5}
+                    0 = {Tensor: (1, 5, 100, 100)}
+                    ...
+                    4 = {Tensor: (1, 5, 7, 7)}
+
+                1 = {list: 5}
+                    0 = {Tensor: (1, 68, 100, 100)}
+                    ...
+                    4 = {Tensor: (1, 68, 7, 7)}
+            if self is instance of LDHeadDouble
+                outs = {tuple: 2}
+
+                0 = {list: 5}
+                    0 = {Tensor: (1, 5, 100, 100)}
+                    ...
+                    4 = {Tensor: (1, 5, 7, 7)}
+
+                1 = {list: 5}
+                    0 = {Tensor: (1, 68, 100, 100)}
+                    ...
+                    4 = {Tensor: (1, 68, 7, 7)}
+        """
+
         outs = self(x)
         # qq
         soft_target = out_teacher[1]
         if gt_labels is None:
             loss_inputs = outs + (gt_bboxes, soft_target, img_metas)
         else:
+            if 1 and 'LDHeadDouble' in str(type(self)): #patch
+                (cls_scores, bbox_preds)=outs
+                cls_scores_new = []
+                for i in range(len(cls_scores)):
+                    cls_scores_new.append( (cls_scores[i],cls_scores[i]) )
+                cls_scores_new = tuple(cls_scores_new)
+                bbox_preds_new = []
+                for i in range(len(bbox_preds)):
+                    bbox_preds_new.append( (bbox_preds[i],bbox_preds[i]) )
+                bbox_preds_new = tuple(bbox_preds_new)
+                outs = (cls_scores_new, bbox_preds_new)
             loss_inputs = outs + (gt_bboxes, gt_labels, soft_target, img_metas)
         losses = self.loss(*loss_inputs, gt_bboxes_ignore=gt_bboxes_ignore)
         if proposal_cfg is None:
@@ -198,9 +236,12 @@ class LDHead(GFLHead):
         Args:
             cls_scores (list[Tensor]): Cls and quality scores for each scale
                 level has shape (N, num_classes, H, W).
+                if LDHeadDouble,
+                    cls_scores = (cls_scores for major head , cls_scores for obj head)
             bbox_preds (list[Tensor]): Box distribution logits for each scale
                 level with shape (N, 4*(n+1), H, W), n is max value of integral
-                set.
+                if LDHeadDouble,
+                    bbox_preds = (bbox_preds for major head , bbox_preds for obj head)
             gt_bboxes (list[Tensor]): Ground truth bboxes for each image with
                 shape (num_gts, 4) in [tl_x, tl_y, br_x, br_y] format.
             gt_labels (list[Tensor]): class indices corresponding to each box
@@ -213,10 +254,14 @@ class LDHead(GFLHead):
             dict[str, Tensor]: A dictionary of loss components.
         """
 
-        featmap_sizes = [featmap.size()[-2:] for featmap in cls_scores]
+        if self.__class__.__name__ == 'LDHeadDouble':
+            featmap_sizes = [featmap[0].size()[-2:] for featmap in cls_scores]
+            device = cls_scores[0][0].device
+        else:
+            featmap_sizes = [featmap.size()[-2:] for featmap in cls_scores]
+            device = cls_scores[0].device
         assert len(featmap_sizes) == self.prior_generator.num_levels
 
-        device = cls_scores[0].device
         anchor_list, valid_flag_list = self.get_anchors(
             featmap_sizes, img_metas, device=device)
         label_channels = self.cls_out_channels if self.use_sigmoid_cls else 1
