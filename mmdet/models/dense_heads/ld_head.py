@@ -34,6 +34,7 @@ class LDHead(GFLHead):
 
         super(LDHead, self).__init__(num_classes, in_channels, **kwargs)
         self.loss_ld = build_loss(loss_ld)
+        return
 
     def loss_single(self, anchors, cls_score, bbox_pred, labels, label_weights,
                     bbox_targets, stride, soft_targets, num_total_samples):

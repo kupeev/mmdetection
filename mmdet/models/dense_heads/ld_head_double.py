@@ -8,6 +8,9 @@ from mmdet.models.dense_heads import LDHead
 from ..builder import HEADS, build_loss
 from .gfl_head import GFLHead
 
+import torch.nn as nn
+from mmcv.cnn import ConvModule, Scale
+
 
 @HEADS.register_module()
 class LDHeadDouble(LDHead):
@@ -22,7 +25,8 @@ class LDHeadDouble(LDHead):
                  **kwargs):
 
         super(LDHeadDouble, self).__init__(num_classes, in_channels, loss_ld = loss_ld, **kwargs)
-        self.var = 20
+        return
+
 
     def loss_single(self, anchors, cls_score, bbox_pred, labels, label_weights,
                     bbox_targets, stride, soft_targets, num_total_samples):
@@ -134,3 +138,68 @@ class LDHeadDouble(LDHead):
             avg_factor=num_total_samples)
 
         return loss_cls, loss_bbox, loss_dfl, loss_ld, weight_targets.sum()
+
+
+    #inital version from gfl_head.py
+    def _init_layers(self):
+        """Initialize layers of the head."""
+        self.relu = nn.ReLU(inplace=True)
+        self.cls_convs = nn.ModuleList()
+        self.reg_convs = nn.ModuleList()
+        for i in range(self.stacked_convs):
+            chn = self.in_channels if i == 0 else self.feat_channels
+            self.cls_convs.append(
+                ConvModule(
+                    chn,
+                    self.feat_channels,
+                    3,
+                    stride=1,
+                    padding=1,
+                    conv_cfg=self.conv_cfg,
+                    norm_cfg=self.norm_cfg))
+            self.reg_convs.append(
+                ConvModule(
+                    chn,
+                    self.feat_channels,
+                    3,
+                    stride=1,
+                    padding=1,
+                    conv_cfg=self.conv_cfg,
+                    norm_cfg=self.norm_cfg))
+        assert self.num_anchors == 1, 'anchor free version'
+        self.gfl_cls = nn.Conv2d(
+            self.feat_channels, self.cls_out_channels, 3, padding=1)
+        self.gfl_reg = nn.Conv2d(
+            self.feat_channels, 4 * (self.reg_max + 1), 3, padding=1)
+        self.scales = nn.ModuleList(
+            [Scale(1.0) for _ in self.prior_generator.strides])
+
+        return
+
+    #inital version from gfl_head.py
+    def forward_single(self, x, scale):
+        """Forward feature of a single scale level.
+
+        Args:
+            x (Tensor): Features of a single scale level.
+            scale (:obj: `mmcv.cnn.Scale`): Learnable scale module to resize
+                the bbox prediction.
+
+        Returns:
+            tuple:
+                cls_score (Tensor): Cls and quality joint scores for a single
+                    scale level the channel number is num_classes.
+                bbox_pred (Tensor): Box distribution logits for a single scale
+                    level, the channel number is 4*(n+1), n is max value of
+                    integral set.
+        """
+        cls_feat = x
+        reg_feat = x
+        for cls_conv in self.cls_convs:
+            cls_feat = cls_conv(cls_feat)
+        for reg_conv in self.reg_convs:
+            reg_feat = reg_conv(reg_feat)
+        cls_score = self.gfl_cls(cls_feat)
+        bbox_pred = scale(self.gfl_reg(reg_feat)).float()
+        return cls_score, bbox_pred
+
