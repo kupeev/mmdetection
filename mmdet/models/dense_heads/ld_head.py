@@ -204,17 +204,6 @@ class LDHead(GFLHead):
         if gt_labels is None:
             loss_inputs = outs + (gt_bboxes, soft_target, img_metas)
         else:
-            if 1 and 'LDHeadDouble' in str(type(self)): #patch
-                (cls_scores, bbox_preds)=outs
-                cls_scores_new = []
-                for i in range(len(cls_scores)):
-                    cls_scores_new.append( (cls_scores[i],cls_scores[i]) )
-                cls_scores_new = tuple(cls_scores_new)
-                bbox_preds_new = []
-                for i in range(len(bbox_preds)):
-                    bbox_preds_new.append( (bbox_preds[i],bbox_preds[i]) )
-                bbox_preds_new = tuple(bbox_preds_new)
-                outs = (cls_scores_new, bbox_preds_new)
             loss_inputs = outs + (gt_bboxes, gt_labels, soft_target, img_metas)
         losses = self.loss(*loss_inputs, gt_bboxes_ignore=gt_bboxes_ignore)
         if proposal_cfg is None:
