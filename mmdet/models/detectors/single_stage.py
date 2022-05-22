@@ -35,6 +35,8 @@ class SingleStageDetector(BaseDetector):
         bbox_head.update(train_cfg=train_cfg)
         bbox_head.update(test_cfg=test_cfg)
         self.bbox_head = build_head(bbox_head)
+        if self.bbox_head.contains_bbox_head_teacher:
+            self.bbox_head.bbox_head_teacher = build_head(bbox_head) #qq
         self.train_cfg = train_cfg
         self.test_cfg = test_cfg
 

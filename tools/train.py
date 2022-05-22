@@ -136,7 +136,7 @@ def main():
                 img_prefix='/home/konstak/data/mmdet/data/train/',
                 pipeline=test_pipeline))
         cfg.custom_imports = dict(imports=['mmdet.models.dense_heads.ld_head_double'], allow_failed_imports=False)
-
+        cfg['find_unused_parameters'] = True
         tmp=10
     #if 1:
 

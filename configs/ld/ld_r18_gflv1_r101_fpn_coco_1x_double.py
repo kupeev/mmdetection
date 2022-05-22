@@ -26,6 +26,7 @@ model = dict(
         num_outs=5),
     bbox_head=dict(
         type='LDHeadDouble',
+        #contains_bbox_head_teacher=1,
         num_classes=80,
         in_channels=256,
         stacked_convs=4,
@@ -58,5 +59,4 @@ model = dict(
         score_thr=0.05,
         nms=dict(type='nms', iou_threshold=0.6),
         max_per_img=100))
-
 optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0001)

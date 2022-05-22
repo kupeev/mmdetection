@@ -25,5 +25,6 @@ class LDHeadDouble(LDHead):
                  **kwargs):
 
         super(LDHeadDouble, self).__init__(num_classes, in_channels, loss_ld = loss_ld, **kwargs)
+        self.contains_bbox_head_teacher = 1
         return
 

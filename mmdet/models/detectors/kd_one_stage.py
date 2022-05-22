@@ -31,12 +31,12 @@ class KnowledgeDistillationSingleStageDetector(SingleStageDetector):
                  test_cfg=None,
                  pretrained=None):
         super().__init__(backbone, neck, bbox_head, train_cfg, test_cfg,
-                         pretrained)
+                         pretrained)# qq double
         self.eval_teacher = eval_teacher
         # Build teacher model
         if isinstance(teacher_config, str):
             teacher_config = mmcv.Config.fromfile(teacher_config)
-        self.teacher_model = build_detector(teacher_config['model']) #qq1
+        self.teacher_model = build_detector(teacher_config['model']) #qq teacher
         if teacher_ckpt is not None:
             load_checkpoint(
                 self.teacher_model, teacher_ckpt, map_location='cpu')
