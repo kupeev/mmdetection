@@ -8,7 +8,7 @@ from mmcv.runner.hooks import HOOKS, Hook
 from mmdet.datasets.builder import PIPELINES
 from mmdet.datasets.pipelines import (LoadAnnotations, LoadImageFromFile,
                                       LoadPanopticAnnotations)
-from mmdet.models.dense_heads import GARPNHead, RPNHead
+from mmdet.models.dense_heads import GARPNHead, RPNHead, GFLHead
 from mmdet.models.roi_heads.mask_heads import FusedSemanticHead
 
 
@@ -140,7 +140,7 @@ class NumClassCheckHook(Hook):
                  f'CLASSES = ({dataset.CLASSES},)')
             for name, module in model.named_modules():
                 if hasattr(module, 'num_classes') and not isinstance(
-                        module, (RPNHead, VGG, FusedSemanticHead, GARPNHead)):
+                        module, (RPNHead, VGG, FusedSemanticHead, GARPNHead, GFLHead)):
                     assert module.num_classes == len(dataset.CLASSES), \
                         (f'The `num_classes` ({module.num_classes}) in '
                          f'{module.__class__.__name__} of '

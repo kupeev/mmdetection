@@ -26,7 +26,6 @@ model = dict(
         num_outs=5),
     bbox_head=dict(
         type='LDHeadDouble',
-        #contains_bbox_head_teacher=1,
         num_classes=80,
         in_channels=256,
         stacked_convs=4,

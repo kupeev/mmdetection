@@ -4,7 +4,7 @@ import torch
 from mmcv.runner import load_checkpoint
 
 from .. import build_detector
-from ..builder import DETECTORS
+from ..builder import DETECTORS, build_head
 from .single_stage import SingleStageDetector
 
 
@@ -41,6 +41,13 @@ class KnowledgeDistillationSingleStageDetector(SingleStageDetector):
             load_checkpoint(
                 self.teacher_model, teacher_ckpt, map_location='cpu')
 
+        if 'LDHeadDouble' in str(type(self.bbox_head)): #qq new
+            bbox_head_student = teacher_config['model']['bbox_head']
+            bbox_head_student.update(train_cfg=train_cfg)
+            bbox_head_student.update(test_cfg=test_cfg)
+            self.bbox_head.bbox_head_student = build_head(bbox_head_student)
+        return
+
     def forward_train(self,
                       img,
                       img_metas,
@@ -64,6 +71,7 @@ class KnowledgeDistillationSingleStageDetector(SingleStageDetector):
         Returns:
             dict[str, Tensor]: A dictionary of loss components.
         """
+        # qq important place in kd_one_stage
         x = self.extract_feat(img)
         with torch.no_grad():
             teacher_x = self.teacher_model.extract_feat(img)

@@ -172,34 +172,8 @@ class LDHead(GFLHead):
             - proposal_list (list[Tensor]): Proposals of each image.
         """
 
-        """
-            if self is instance of LDHead
-                outs = {tuple: 2}
-                0 = {list: 5}
-                    0 = {Tensor: (1, 5, 100, 100)}
-                    ...
-                    4 = {Tensor: (1, 5, 7, 7)}
-
-                1 = {list: 5}
-                    0 = {Tensor: (1, 68, 100, 100)}
-                    ...
-                    4 = {Tensor: (1, 68, 7, 7)}
-            if self is instance of LDHeadDouble
-                outs = {tuple: 2}
-
-                0 = {list: 5}
-                    0 = {Tensor: (1, 5, 100, 100)}
-                    ...
-                    4 = {Tensor: (1, 5, 7, 7)}
-
-                1 = {list: 5}
-                    0 = {Tensor: (1, 68, 100, 100)}
-                    ...
-                    4 = {Tensor: (1, 68, 7, 7)}
-        """
-
         outs = self(x)
-        # qq
+        # qqq
         soft_target = out_teacher[1]
         if gt_labels is None:
             loss_inputs = outs + (gt_bboxes, soft_target, img_metas)

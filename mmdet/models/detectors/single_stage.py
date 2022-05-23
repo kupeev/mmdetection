@@ -34,9 +34,7 @@ class SingleStageDetector(BaseDetector):
             self.neck = build_neck(neck)
         bbox_head.update(train_cfg=train_cfg)
         bbox_head.update(test_cfg=test_cfg)
-        self.bbox_head = build_head(bbox_head)
-        if self.bbox_head.contains_bbox_head_teacher:
-            self.bbox_head.bbox_head_teacher = build_head(bbox_head) #qq
+        self.bbox_head = build_head(bbox_head) ## qq old
         self.train_cfg = train_cfg
         self.test_cfg = test_cfg
 
