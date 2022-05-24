@@ -31,7 +31,7 @@ class KnowledgeDistillationSingleStageDetector(SingleStageDetector):
                  test_cfg=None,
                  pretrained=None):
         super().__init__(backbone, neck, bbox_head, train_cfg, test_cfg,
-                         pretrained)# qq double
+                         pretrained, teacher_config=teacher_config)# qq double
         self.eval_teacher = eval_teacher
         # Build teacher model
         if isinstance(teacher_config, str):
@@ -40,12 +40,6 @@ class KnowledgeDistillationSingleStageDetector(SingleStageDetector):
         if teacher_ckpt is not None:
             load_checkpoint(
                 self.teacher_model, teacher_ckpt, map_location='cpu')
-
-        if 'LDHeadDouble' in str(type(self.bbox_head)): #qq new
-            bbox_head_student = teacher_config['model']['bbox_head']
-            bbox_head_student.update(train_cfg=train_cfg)
-            bbox_head_student.update(test_cfg=test_cfg)
-            self.bbox_head.bbox_head_student = build_head(bbox_head_student)
         return
 
     def forward_train(self,

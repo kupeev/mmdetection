@@ -3,6 +3,7 @@ import warnings
 
 import torch
 
+import mmcv
 from mmdet.core import bbox2result
 from ..builder import DETECTORS, build_backbone, build_head, build_neck
 from .base import BaseDetector
@@ -23,7 +24,8 @@ class SingleStageDetector(BaseDetector):
                  train_cfg=None,
                  test_cfg=None,
                  pretrained=None,
-                 init_cfg=None):
+                 init_cfg=None,
+                 teacher_config=None):
         super(SingleStageDetector, self).__init__(init_cfg)
         if pretrained:
             warnings.warn('DeprecationWarning: pretrained is deprecated, '
@@ -35,6 +37,17 @@ class SingleStageDetector(BaseDetector):
         bbox_head.update(train_cfg=train_cfg)
         bbox_head.update(test_cfg=test_cfg)
         self.bbox_head = build_head(bbox_head) ## qq old
+
+        if teacher_config:
+            assert isinstance(teacher_config, str)
+            assert 'LDHeadDouble' in str(type(self.bbox_head))
+            teacher_config = mmcv.Config.fromfile(teacher_config)
+            bbox_head_student = teacher_config['model']['bbox_head']
+            bbox_head_student.update(train_cfg=train_cfg)
+            bbox_head_student.update(test_cfg=test_cfg)
+            self.bbox_head.bbox_head_student = build_head(bbox_head_student)
+
+
         self.train_cfg = train_cfg
         self.test_cfg = test_cfg
 
