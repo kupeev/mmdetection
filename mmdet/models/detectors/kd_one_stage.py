@@ -79,6 +79,18 @@ class KnowledgeDistillationSingleStageDetector(SingleStageDetector):
             tmp=10
             #from demo.davidk.general_dk import *
 
+        if 0 : #qq
+            print('------------sums------------')
+            print(torch.sum(self.bbox_head.bbox_head_student.cls_convs[0].conv.weight))
+            print(torch.sum(self.bbox_head.bbox_head_student.reg_convs[0].conv.weight))
+            print(torch.sum(self.bbox_head.bbox_head_student.gfl_cls.weight))
+            print(torch.sum(self.bbox_head.bbox_head_student.gfl_reg.weight))
+            print('------------sums2------------')
+            print(torch.sum(self.bbox_head.cls_convs[0].conv.weight))
+            print(torch.sum(self.bbox_head.reg_convs[0].conv.weight))
+            print(torch.sum(self.bbox_head.gfl_cls.weight))
+            print(torch.sum(self.bbox_head.gfl_reg.weight))
+
         return losses
 
     def cuda(self, device=None):

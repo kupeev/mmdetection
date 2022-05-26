@@ -38,8 +38,7 @@ class SingleStageDetector(BaseDetector):
         bbox_head.update(test_cfg=test_cfg)
         self.bbox_head = build_head(bbox_head) ## qq old
 
-        if teacher_config:
-            assert isinstance(teacher_config, str)
+        if teacher_config and bbox_head.type == 'LDHeadDouble':
             assert 'LDHeadDouble' in str(type(self.bbox_head))
             teacher_config = mmcv.Config.fromfile(teacher_config)
             bbox_head_student = teacher_config['model']['bbox_head']

@@ -130,7 +130,7 @@ class GFLHead(AnchorHead):
         """Initialize layers of the head."""
         self.relu = nn.ReLU(inplace=True)
         self.cls_convs = nn.ModuleList()
-        self.reg_convs = nn.ModuleList()
+        self.reg_convs = nn.ModuleList() #qq
         for i in range(self.stacked_convs):
             chn = self.in_channels if i == 0 else self.feat_channels
             self.cls_convs.append(
