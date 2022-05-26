@@ -1,4 +1,46 @@
-﻿May25.2022
+﻿May26.2022
+
+    ISSUE3
+
+    ISSUE2
+        does not work
+            os.getcwd()
+            Out[7]: '/home/konstak/projects2/mmdetection/demo/davidk'
+            teacher_config
+            Out[8]: 'configs/gfl/gfl_r101_fpn_mstrain_2x_coco.py'
+
+        ------------
+        works
+            os.getcwd()
+            Out[3]: '/home/konstak/projects2/mmdetection'
+            import sys; print('Python %s on %s' % (sys.version, sys.platform))
+            Python 3.8.10 (default, Mar 15 2022, 12:22:08)
+            [GCC 9.4.0] on linux
+            teacher_config
+            Out[5]: 'configs/gfl/gfl_r101_fpn_mstrain_2x_coco.py'
+
+
+        solut:
+        configs/gfl/gfl_r101_fpn_mstrain_2x_coco.py ->  /home/konstak/projects2/mmdetection/configs/gfl/gfl_r101_fpn_mstrain_2x_coco.py
+
+    ISSUE1
+
+        https://mmdetection.readthedocs.io/en/latest/1_exist_data_model.html
+        https://mmdetection.readthedocs.io/en/latest/1_exist_data_model.html#
+            A notebook demo can be found in demo/inference_demo.ipynb.
+
+
+        jupyter notebook
+
+        test_ld_double.ipynb
+
+        ../work_dirs/config_ld_double/_config_ld_double.py
+
+
+
+        FileNotFoundError: file "/home/konstak/projects2/mmdetection/demo/configs/gfl/gfl_r101_fpn_mstrain_2x_coco.py" does not exist
+
+May25.2022
     self.loss_weight ??
 
         kd_one_stage
