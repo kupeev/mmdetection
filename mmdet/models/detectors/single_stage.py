@@ -111,8 +111,15 @@ class SingleStageDetector(BaseDetector):
                 corresponds to each class.
         """
         feat = self.extract_feat(img)
-        results_list = self.bbox_head.simple_test(
-            feat, img_metas, rescale=rescale)
+
+
+        if self.bbox_head.__class__.__name__ == 'LDHeadDouble':
+            assert 'LDHeadDouble' in str(type(self.bbox_head))
+            results_list = self.bbox_head.bbox_head_student.simple_test(
+                feat, img_metas, rescale=rescale)
+        else:
+            results_list = self.bbox_head.simple_test(
+                feat, img_metas, rescale=rescale)
         bbox_results = [
             bbox2result(det_bboxes, det_labels, self.bbox_head.num_classes)
             for det_bboxes, det_labels in results_list

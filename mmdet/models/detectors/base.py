@@ -178,6 +178,8 @@ class BaseDetector(BaseModule, metaclass=ABCMeta):
         else:
             return self.forward_test(img, img_metas, **kwargs)
 
+        return
+
     def _parse_losses(self, losses):
         """Parse the raw outputs (losses) of the network.
 

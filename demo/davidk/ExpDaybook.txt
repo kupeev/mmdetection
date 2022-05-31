@@ -1,6 +1,35 @@
-﻿May26.2022
+﻿May31.2022
 
-    ISSUE3
+    =================
+    ma ze:
+    if self.__class__.__name__ == 'LDHeadDouble':
+
+May30.2022
+
+
+    single_stage.py: def simple_test(self, img, img_metas, rescale=False):
+        feat = self.extract_feat(img)
+    =================================
+    forward_test in base.py
+
+    =================================
+    # qq5
+    pos_decode_bbox_pred = self.bbox_coder.decode(
+        pos_anchor_centers, pos_bbox_pred_corners)
+    pos_decode_bbox_targets = pos_bbox_targets / stride[0]
+
+May29.2022
+
+    assign, atss_assigner.py:67
+
+    inside_flags = anchor_inside_flags(flat_anchors, valid_flags,
+                                       img_meta['img_shape'][:2],
+                                       self.train_cfg.allowed_border)
+
+
+    len(np.argwhere((assign_result.labels!=-1).cpu().detach().numpy()))
+
+May26.2022
 
     ISSUE2
         does not work
