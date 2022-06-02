@@ -1,4 +1,10 @@
-﻿May31.2022
+﻿June01.2022
+
+    load_from = None
+
+
+
+May31.2022
 
     =================
     ma ze:
@@ -428,3 +434,39 @@ after self.neck
 eto feature pyramide  of FCOS
 
 qq
+
+    --nproc_per_node=1 --master_port=29500 ./tools/train.py configs/michael/davidk/config_ld.py --launcher pytorch
+                                                            >>>>configs/michael/davidk/config_ld_double.py<<<<
+
+                _base_ = ['/home/konstak/projects2/mmdetection/configs/ld/ld_r50_gflv1_r101_fpn_coco_1x.py']
+                _base_ = ['./ld_r18_gflv1_r101_fpn_coco_1x.py']
+
+                    type='KnowledgeDistillationSingleStageDetector',
+                    teacher_config=
+                    '/home/konstak/projects2/mmdetection/configs/gfl/gfl_r101_fpn_mstrain_2x_coco.py',
+                    teacher_ckpt=
+                    'https://download.openmmlab.com/mmdetection/v2.0/gfl/gfl_r101_fpn_mstrain_2x_coco/gfl_r101_fpn_mstrain_2x_coco_20200629_200126-dd12f847.pth',
+
+                    bbox_head=dict(
+                        type='LDHead',
+        >>>>
+                _base_ = ['/home/konstak/projects2/mmdetection/configs/ld/ld_r50_gflv1_r101_fpn_coco_1x_double.py']
+                _base_ = ['./ld_r18_gflv1_r101_fpn_coco_1x_double.py']
+
+                    type='KnowledgeDistillationSingleStageDetector',
+                    teacher_config=
+                    '/home/konstak/projects2/mmdetection/configs/gfl/gfl_r101_fpn_mstrain_2x_coco.py',
+
+                    teacher_ckpt=
+                    'https://download.openmmlab.com/mmdetection/v2.0/gfl/gfl_r101_fpn_mstrain_2x_coco/gfl_r101_fpn_mstrain_2x_coco_20200629_200126-dd12f847.pth',
+
+                    bbox_head=dict(
+                        LDHeadDouble
+
+    ====
+
+    saced:
+    /home/konstak/projects2/mmdetection/work_dirs/config_ld_double/config_ld_double.py
+
+
+

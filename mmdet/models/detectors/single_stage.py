@@ -110,20 +110,46 @@ class SingleStageDetector(BaseDetector):
                 The outer list corresponds to each image. The inner list
                 corresponds to each class.
         """
-        feat = self.extract_feat(img)
 
+        if 0:
+            from mmdet.apis import init_detector, inference_detector, show_result_pyplot
+            img = '/home/konstak/data/mmdet/data/train/10.jpg'
+
+            config_file = '/home/konstak/projects2/mmdetection/configs/gfl/gfl_r101_fpn_mstrain_2x_coco.py'
+            config = mmcv.Config.fromfile(config_file)
+            self.cfg = config  # save the config in the model for convenience
+
+            result = inference_detector(self, img)
 
         if self.bbox_head.__class__.__name__ == 'LDHeadDouble':
             assert 'LDHeadDouble' in str(type(self.bbox_head))
-            results_list = self.bbox_head.bbox_head_student.simple_test(
+
+            from mmdet.core import get_classes
+            self.teacher_model.CLASSES = get_classes('coco')
+
+            feat = self.teacher_model.extract_feat(img)
+            results_list = self.teacher_model.bbox_head.simple_test(
                 feat, img_metas, rescale=rescale)
+
+            bbox_results = [
+                bbox2result(det_bboxes, det_labels, self.teacher_model.bbox_head.num_classes)
+                for det_bboxes, det_labels in results_list
+            ]
+
         else:
+            feat = self.extract_feat(img)
             results_list = self.bbox_head.simple_test(
                 feat, img_metas, rescale=rescale)
-        bbox_results = [
-            bbox2result(det_bboxes, det_labels, self.bbox_head.num_classes)
-            for det_bboxes, det_labels in results_list
-        ]
+            bbox_results = [
+                bbox2result(det_bboxes, det_labels, self.bbox_head.num_classes)
+                for det_bboxes, det_labels in results_list
+            ]
+
+        if 0:
+            from mmdet.apis.inference import show_result_pyplot
+
+            show_result_pyplot(self.teacher_model, img_metas[0]['filename'], bbox_results[0])
+
         return bbox_results
 
     def aug_test(self, imgs, img_metas, rescale=False):
