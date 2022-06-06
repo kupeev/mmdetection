@@ -8,6 +8,8 @@ from mmdet.core import bbox2result
 from ..builder import DETECTORS, build_backbone, build_head, build_neck
 from .base import BaseDetector
 import matplotlib.pyplot as plt
+#from mmdet.apis import inference_detector, show_result_pyplot #leads to cyclic dependance
+
 
 @DETECTORS.register_module()
 class SingleStageDetector(BaseDetector):
@@ -112,7 +114,7 @@ class SingleStageDetector(BaseDetector):
         """
 
         if 0:
-            from mmdet.apis import init_detector, inference_detector, show_result_pyplot
+            from mmdet.apis import inference_detector, show_result_pyplot
             img = '/home/konstak/data/mmdet/data/train/10.jpg'
 
             config_file = '/home/konstak/projects2/mmdetection/configs/gfl/gfl_r101_fpn_mstrain_2x_coco.py'
@@ -147,7 +149,8 @@ class SingleStageDetector(BaseDetector):
 
         if 1:
             out_dir = '/home/konstak/projects2/mmdetection/demo/davidk/out_dir/'
-            from mmdet.apis.inference import show_result_pyplot
+            #from mmdet.apis.inference import show_result_pyplot
+            from mmdet.apis import show_result_pyplot
             show_result_pyplot(self.teacher_model, img_metas[0]['filename'], bbox_results[0],\
                 out_file = out_dir + 'res.png', fix_imshow_det_bboxes = 1)
             plt.close()
