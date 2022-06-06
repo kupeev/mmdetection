@@ -218,7 +218,9 @@ def show_result_pyplot(model,
                        score_thr=0.3,
                        title='result',
                        wait_time=0,
-                       palette=None):
+                       palette=None,
+                       out_file=None,
+                       fix_imshow_det_bboxes = 0):
     """Visualize the detection results on the image.
 
     Args:
@@ -242,4 +244,6 @@ def show_result_pyplot(model,
         win_name=title,
         bbox_color=palette,
         text_color=(200, 200, 200),
-        mask_color=palette)
+        mask_color=palette,
+        out_file = out_file,
+        fix_imshow_det_bboxes = fix_imshow_det_bboxes)

@@ -217,7 +217,8 @@ def imshow_det_bboxes(img,
                       win_name='',
                       show=True,
                       wait_time=0,
-                      out_file=None):
+                      out_file=None,
+                      fix_imshow_det_bboxes = 0):
     """Draw bboxes and class labels (with scores) on an image.
 
     Args:
@@ -245,6 +246,9 @@ def imshow_det_bboxes(img,
         wait_time (float): Value of waitKey param. Default: 0.
         out_file (str, optional): The filename to write the image.
             Default: None.
+        fix_imshow_det_bboxes : used to exit earlier from imshow_det_bboxes to prevent fail in debug mode:
+            (buffer.shape != height*width*4)
+
 
     Returns:
         ndarray: The image with bboxes drawn on it.
@@ -347,6 +351,12 @@ def imshow_det_bboxes(img,
                 horizontal_alignment=horizontal_alignment)
 
     plt.imshow(img)
+
+    if fix_imshow_det_bboxes:
+        if out_file is not None:
+            plt.savefig(out_file)
+        #plt.close()
+        return
 
     stream, _ = canvas.print_to_buffer()
     buffer = np.frombuffer(stream, dtype='uint8')

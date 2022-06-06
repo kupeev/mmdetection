@@ -7,7 +7,8 @@ import mmcv
 from mmdet.core import bbox2result
 from ..builder import DETECTORS, build_backbone, build_head, build_neck
 from .base import BaseDetector
-
+import matplotlib.pyplot as plt
+from mmdet.apis.inference import show_result_pyplot
 
 @DETECTORS.register_module()
 class SingleStageDetector(BaseDetector):
@@ -146,9 +147,11 @@ class SingleStageDetector(BaseDetector):
             ]
 
         if 0:
-            from mmdet.apis.inference import show_result_pyplot
-
-            show_result_pyplot(self.teacher_model, img_metas[0]['filename'], bbox_results[0])
+            out_dir = '/home/konstak/projects2/mmdetection/demo/davidk/out_dir/'
+            show_result_pyplot(self.teacher_model, img_metas[0]['filename'], bbox_results[0],\
+                out_file = out_dir + 'res.png', fix_imshow_det_bboxes = 1)
+            plt.close()
+            assert False
 
         return bbox_results
 
