@@ -9,6 +9,8 @@ from ..builder import DETECTORS, build_backbone, build_head, build_neck
 from .base import BaseDetector
 import matplotlib.pyplot as plt
 #from mmdet.apis import inference_detector, show_result_pyplot #leads to cyclic dependance
+from demo.davidk.general_dk import global_vars
+
 
 @DETECTORS.register_module()
 class SingleStageDetector(BaseDetector):
@@ -122,35 +124,46 @@ class SingleStageDetector(BaseDetector):
 
             result = inference_detector(self, img)
 
-        if self.bbox_head.__class__.__name__ == 'LDHeadDouble':
-            feat = self.teacher_model.extract_feat(img)
-            results_list = self.teacher_model.bbox_head.simple_test(
-                feat, img_metas, rescale=rescale)
+        feat = self.extract_feat(img)
+        results_list = self.bbox_head.simple_test(
+            feat, img_metas, rescale=rescale)
+        bbox_results = [
+            bbox2result(det_bboxes, det_labels, self.bbox_head.num_classes)
+            for det_bboxes, det_labels in results_list
+        ]
 
-            bbox_results = [
+        if global_vars.pars.N1:
+            assert self.bbox_head.__class__.__name__ in ['LDHeadDouble', 'LDHead']
+
+            feat_N1 = self.teacher_model.extract_feat(img)
+            results_list_N1 = self.teacher_model.bbox_head.simple_test(
+                feat_N1, img_metas, rescale=rescale)
+            bbox_results_N1 = [
                 bbox2result(det_bboxes, det_labels, self.teacher_model.bbox_head.num_classes)
-                for det_bboxes, det_labels in results_list
+                for det_bboxes, det_labels in results_list_N1
             ]
 
-        else:
-            feat = self.extract_feat(img)
-            results_list = self.bbox_head.simple_test(
-                feat, img_metas, rescale=rescale)
-            bbox_results = [
-                bbox2result(det_bboxes, det_labels, self.bbox_head.num_classes)
-                for det_bboxes, det_labels in results_list
-            ]
-
-        from demo.davidk.general_dk import global_vars
-        if global_vars.pars.N1:#global_vars.pars.N1:
-            #from mmdet.apis.inference import show_result_pyplot
             from mmdet.apis import show_result_pyplot
-
-            show_result_pyplot(self.teacher_model, img_metas[0]['filename'], bbox_results[0],\
-                out_file = global_vars.pars.out_dir + 'res.' + str(global_vars.cnt) + '.png', fix_imshow_det_bboxes = 1)
+            show_result_pyplot(self.teacher_model, img_metas[0]['filename'], bbox_results_N1[0],\
+                out_file = global_vars.pars.out_dir + 'res.' + 'N1.' + str(self.teacher_model.__class__.__name__ ) + '.teacher_model.'
+                           + str(global_vars.cnt) + '.png', fix_imshow_det_bboxes = 1)
             global_vars.cnt += 1
             plt.close()
-            #assert False
+        #if global_vars.pars.N1:
+        if global_vars.pars.N2:
+            assert self.bbox_head.__class__.__name__ in ['LDHeadDouble', 'LDHead']
+
+            from mmdet.apis import show_result_pyplot
+            shorten_class_name = 'KD' if str(self.__class__.__name__) == 'KnowledgeDistillationSingleStageDetector' \
+                    else str(self.__class__.__name__)
+
+            if global_vars.cnt % 10 == 0:
+                show_result_pyplot(self, img_metas[0]['filename'], bbox_results[0],\
+                    out_file = global_vars.pars.out_dir + 'res.' + shorten_class_name + '.N2_trained_model.'
+                               + str(global_vars.cnt) + '.png', fix_imshow_det_bboxes = 1)
+            global_vars.cnt += 1
+            plt.close()
+        #if global_vars.pars.N1:
 
         return bbox_results
 

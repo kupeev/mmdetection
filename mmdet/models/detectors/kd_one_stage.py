@@ -6,6 +6,7 @@ from mmcv.runner import load_checkpoint
 from .. import build_detector
 from ..builder import DETECTORS, build_head
 from .single_stage import SingleStageDetector
+from mmdet.core import get_classes
 
 
 @DETECTORS.register_module()
@@ -37,8 +38,8 @@ class KnowledgeDistillationSingleStageDetector(SingleStageDetector):
         if isinstance(teacher_config, str):
             teacher_config = mmcv.Config.fromfile(teacher_config)
         self.teacher_model = build_detector(teacher_config['model']) #qq teacher
-        if 'mmdet.models.dense_heads.ld_head_double.LDHeadDouble' in str(type(self.bbox_head)):
-            from mmdet.core import get_classes
+        if 'mmdet.models.dense_heads.ld_head_double.LDHeadDouble' in str(type(self.bbox_head)) or \
+                'mmdet.models.dense_heads.ld_head.LDHead' in str(type(self.bbox_head)): #LDHead was added for consitence
             assert (teacher_config.dataset_type == 'CocoDataset')
             self.teacher_model.CLASSES = get_classes('coco')
 
