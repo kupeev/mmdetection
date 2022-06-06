@@ -1,4 +1,27 @@
-﻿June01.2022
+﻿June06.2022
+
+    remo:
+        teacher model is built
+            self.teacher_model = build_detector(teacher_config['model']) #qq teacher
+
+    ============
+
+    from mmdet.core import get_classes
+    model.CLASSES = get_classes('coco')
+
+
+    dataset = DATASETS.get(cfg.data.test['type'])
+    assert (dataset is not None)
+    model.CLASSES = dataset.CLASSES
+
+    self.CLASSES = self.get_classes(classes)
+
+    a u nas:
+    self.teacher_model.CLASSES = get_classes('coco')
+
+
+
+June01.2022
 
     load_from = None
 

@@ -218,7 +218,7 @@ class LDHead(GFLHead):
             dict[str, Tensor]: A dictionary of loss components.
         """
 
-        if self.__class__.__name__ == 'LDHeadDouble':
+        if self.__class__.__name__ == 'LDHeadDouble': #qq
             featmap_sizes = [featmap[0].size()[-2:] for featmap in cls_scores]
             device = cls_scores[0][0].device
         else:

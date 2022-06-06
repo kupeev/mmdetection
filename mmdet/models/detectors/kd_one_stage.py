@@ -37,6 +37,11 @@ class KnowledgeDistillationSingleStageDetector(SingleStageDetector):
         if isinstance(teacher_config, str):
             teacher_config = mmcv.Config.fromfile(teacher_config)
         self.teacher_model = build_detector(teacher_config['model']) #qq teacher
+        if 'mmdet.models.dense_heads.ld_head_double.LDHeadDouble' in str(type(self.bbox_head)):
+            from mmdet.core import get_classes
+            assert (teacher_config.dataset_type == 'CocoDataset')
+            self.teacher_model.CLASSES = get_classes('coco')
+
         if teacher_ckpt is not None:
             load_checkpoint(
                 self.teacher_model, teacher_ckpt, map_location='cpu')

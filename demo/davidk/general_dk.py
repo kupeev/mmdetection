@@ -33,6 +33,16 @@ class struct():
 
 eps = np.finfo(np.float32).eps
 
+global global_vars #from demo.davidk.general_dk import global_vars
+
+global_vars = struct()
+global_vars.pars  = struct()
+
+global_vars.pars.N1 = 1# display teacher model at test set
+global_vars.pars.out_dir = '/home/konstak/projects2/mmdetection/demo/davidk/out_dir/'
+global_vars.cnt = 0
+
+#===========================================
 
 def find_t(val, lst):
     #find(5, [1, 2, 10]) == []

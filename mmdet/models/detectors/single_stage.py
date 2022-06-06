@@ -10,7 +10,6 @@ from .base import BaseDetector
 import matplotlib.pyplot as plt
 #from mmdet.apis import inference_detector, show_result_pyplot #leads to cyclic dependance
 
-
 @DETECTORS.register_module()
 class SingleStageDetector(BaseDetector):
     """Base class for single-stage detectors.
@@ -124,11 +123,6 @@ class SingleStageDetector(BaseDetector):
             result = inference_detector(self, img)
 
         if self.bbox_head.__class__.__name__ == 'LDHeadDouble':
-            assert 'LDHeadDouble' in str(type(self.bbox_head))
-
-            from mmdet.core import get_classes
-            self.teacher_model.CLASSES = get_classes('coco')
-
             feat = self.teacher_model.extract_feat(img)
             results_list = self.teacher_model.bbox_head.simple_test(
                 feat, img_metas, rescale=rescale)
@@ -147,14 +141,16 @@ class SingleStageDetector(BaseDetector):
                 for det_bboxes, det_labels in results_list
             ]
 
-        if 1:
-            out_dir = '/home/konstak/projects2/mmdetection/demo/davidk/out_dir/'
+        from demo.davidk.general_dk import global_vars
+        if global_vars.pars.N1:#global_vars.pars.N1:
             #from mmdet.apis.inference import show_result_pyplot
             from mmdet.apis import show_result_pyplot
+
             show_result_pyplot(self.teacher_model, img_metas[0]['filename'], bbox_results[0],\
-                out_file = out_dir + 'res.png', fix_imshow_det_bboxes = 1)
+                out_file = global_vars.pars.out_dir + 'res.' + str(global_vars.cnt) + '.png', fix_imshow_det_bboxes = 1)
+            global_vars.cnt += 1
             plt.close()
-            assert False
+            #assert False
 
         return bbox_results
 
