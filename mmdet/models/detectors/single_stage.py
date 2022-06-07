@@ -29,17 +29,22 @@ class SingleStageDetector(BaseDetector):
                  pretrained=None,
                  init_cfg=None,
                  teacher_config=None):
+        if 0:
+            init_cfg = dict(type='Pretrained',
+                    checkpoint='/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/epoch_2000.pth')
         super(SingleStageDetector, self).__init__(init_cfg)
         if pretrained:
             warnings.warn('DeprecationWarning: pretrained is deprecated, '
                           'please use "init_cfg" instead')
             backbone.pretrained = pretrained
         self.backbone = build_backbone(backbone)
+        #self.backbone.conv1.weight.T.flatten()[0:5]
         if neck is not None:
             self.neck = build_neck(neck)
         bbox_head.update(train_cfg=train_cfg)
         bbox_head.update(test_cfg=test_cfg)
         self.bbox_head = build_head(bbox_head) ## qq old
+        # self.bbox_head.gfl_cls.weight.T.flatten()[0:5]
 
         if teacher_config and bbox_head.type == 'LDHeadDouble':
             assert 'LDHeadDouble' in str(type(self.bbox_head))

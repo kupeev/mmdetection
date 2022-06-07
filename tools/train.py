@@ -19,6 +19,7 @@ from mmdet.models import build_detector
 from mmdet.utils import collect_env, get_root_logger, setup_multi_processes
 
 import numpy as np
+from demo.davidk.general_dk import global_vars
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
@@ -137,6 +138,13 @@ def main():
                 pipeline=test_pipeline))
         cfg.custom_imports = dict(imports=['mmdet.models.dense_heads.ld_head_double'], allow_failed_imports=False)
         cfg['find_unused_parameters'] = True
+
+        cfg['runner']['max_epochs'] = 200
+        if global_vars.pars.dbg1 == 1:
+            cfg['runner']['max_epochs'] = 200
+        # cfg['load_from']
+        # cfg['load_from'] = '/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_200.pth'
+        cfg['load_from'] = '/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_3.pth'
         tmp=10
     #if 1:
 

@@ -11,6 +11,7 @@ from .gfl_head import GFLHead
 import torch.nn as nn
 from mmcv.cnn import ConvModule, Scale
 
+from demo.davidk.general_dk import global_vars
 
 @HEADS.register_module()
 class LDHeadDouble(LDHead):
@@ -273,5 +274,10 @@ class LDHeadDouble(LDHead):
             cls_score, (labels, score),
             weight=label_weights,
             avg_factor=num_total_samples)
+
+        if global_vars.pars.dbg1:
+            loss_cls = loss_cls-loss_cls
+            loss_dfl = loss_dfl-loss_dfl
+            loss_ld = loss_ld-loss_ld
 
         return loss_cls, loss_bbox, loss_dfl, loss_ld, weight_targets.sum()
