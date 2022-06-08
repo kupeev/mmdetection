@@ -32,6 +32,20 @@ script path:
 parameters:
     --nproc_per_node=1 --master_port=29500 ./tools/train.py configs/michael/davidk/config_ld_double.py --launcher pytorch
     
+======= for projects2
+
+lunch_ld_double_projects2
+
+script path:
+    /home/konstak/projects2/mmdetection/venv_mmdet/lib/python3.8/site-packages/torch/distributed/launch.py
+pars
+    --nproc_per_node=1 --master_port=29501 ./tools/train.py configs/michael/davidk/config_ld_double.py --launcher pytorch
+env vars
+    PYTHONUNBUFFERED=1
+working dir
+    /home/konstak/projects2/mmdetection
+
+Note: add cont root to pyton path is off
 
 
 

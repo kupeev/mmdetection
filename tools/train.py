@@ -142,9 +142,8 @@ def main():
         cfg['runner']['max_epochs'] = 200
         if global_vars.pars.dbg1 == 1:
             cfg['runner']['max_epochs'] = 200
-        # cfg['load_from']
-        # cfg['load_from'] = '/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_200.pth'
-        cfg['load_from'] = '/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_3.pth'
+
+        cfg['load_from'] = global_vars.pars.load_from if global_vars.pars.load_from else None
         tmp=10
     #if 1:
 
