@@ -14,6 +14,7 @@ from torch.utils.data import DataLoader
 from .samplers import (DistributedGroupSampler, DistributedSampler,
                        GroupSampler, InfiniteBatchSampler,
                        InfiniteGroupBatchSampler)
+from demo.davidk.general_dk import global_vars
 
 if platform.system() != 'Windows':
     # https://github.com/pytorch/pytorch/issues/973
@@ -176,6 +177,10 @@ def build_dataloader(dataset,
     elif persistent_workers is True:
         warnings.warn('persistent_workers is invalid because your pytorch '
                       'version is lower than 1.7.0')
+
+    if global_vars.pars.dont_shuffle:
+        kwargs['shuffle'] = 0
+        sampler = None
 
     data_loader = DataLoader(
         dataset,

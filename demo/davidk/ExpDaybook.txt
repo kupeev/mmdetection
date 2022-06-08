@@ -1,5 +1,62 @@
-﻿June07.2022
+﻿June08.2022
 
+    build_dataloader, builder.py:184
+    -----------
+    self.interval
+    -----------
+    losses:
+    def average(self, n=0):
+    -------------
+    hook enum
+
+        for hook in self._hooks:
+            getattr(hook, fn_name)(self)
+
+    --------------
+    after_train_iter, optimizer.py:53
+        call_hook, base_runner.py:309
+        train, epoch_based_runner.py:54
+        run, epoch_based_runner.py:133
+        train_detector, train.py:208
+        main, train.py:247
+        <module>, train.py:256
+
+    -----------------
+
+    epoch_based_runner.py
+    self.call_hook('after_train_epoch')
+    data_batch['img_metas'].data[0][0]['filename']
+
+
+        /home/konstak/projects2/mmdetection/venv_mmdet/lib/python3.8/site-packages/mmcv/runner/epoch_based_runner.py
+        epoch_runner(data_loaders[i], **kwargs) //epoch_based_runner.py line 172
+
+            def train(self, data_loader, **kwargs): //epoch_based_runner.py line 40
+                //run epoch
+                for i, data_batch in enumerate(self.data_loader):
+                    self._inner_iter = i
+                    self.call_hook('before_train_iter') //ie before batch
+                    self.run_iter(data_batch, train_mode=True, **kwargs)
+
+
+                    run_iter, epoch_based_runner.py:29 outputs = self.model.train_step(data_batch, self.optimizer,
+                    //ru  at one batch
+
+                        train_step, base.py:255 losses = self(**data)
+                            forward_train, kd_one_stage.py:100
+                        train_step, base.py:261 return outputs
+        ============
+
+        self.call_hook('after_train_epoch')
+
+            def _save_checkpoint(self, runner):
+                """Save the current checkpoint and delete unwanted checkpoint."""
+                runner.save_checkpoint(
+
+
+        self._epoch += 1
+
+June07.2022
 
     TBD
 
@@ -27,14 +84,15 @@
                     self.model.module.neck.lateral_convs[0].conv.weight.shape Out[29]: torch.Size([256, 512, 1, 1])
                     self.model.module.neck.lateral_convs[0].conv.weight.flatten()[0:5] tensor([ 0.0608,  0.0453, -0.0212,  0.0852, -0.0361], device='cuda:0',
 
+                    //runner.model.module.backbone.layer1[0].conv1.weight.shape
                     self.model.module.bbox_head.gfl_cls.weight.shape                                Out[5]: torch.Size([5, 256, 3, 3])
                     self.model.module.bbox_head.gfl_cls.weight.flatten(0)[0:5]                      Out[6]:tensor([ 0.0065, -0.0121, -0.0164,  0.0052,  0.0083], device='cuda:0',
                     self.model.module.bbox_head.gfl_reg.weight.shape                                Out[7]: torch.Size([68, 256, 3, 3])
-                    self.model.module.bbox_head.gfl_reg.weight.flatten()[0:5]                       Out[8]:tensor([-0.0018,  0.0032, -0.0028,  0.0092,  0.0087], device='cuda:0',
+xx                  self.model.module.bbox_head.gfl_reg.weight.flatten()[0:5]                       Out[8]:tensor([-0.0018,  0.0032, -0.0028,  0.0092,  0.0087], device='cuda:0',
                     self.model.module.bbox_head.bbox_head_student.gfl_cls.weight.shape              Out[9]: torch.Size([80, 256, 3, 3])
                     self.model.module.bbox_head.bbox_head_student.gfl_cls.weight.flatten()[0:5] tensor([-0.0104, -0.0147,  0.0025, -0.0020,  0.0045], device='cuda:0',
                     self.model.module.bbox_head.bbox_head_student.gfl_reg.weight.shape Out[11]: torch.Size([68, 256, 3, 3])
-                    self.model.module.bbox_head.bbox_head_student.gfl_reg.weight.flatten()[0:5] tensor([-0.0035, -0.0039, -0.0065, -0.0014,  0.0036], device='cuda:0',
+x?                  self.model.module.bbox_head.bbox_head_student.gfl_reg.weight.flatten()[0:5] tensor([-0.0035, -0.0039, -0.0065, -0.0014,  0.0036], device='cuda:0',
 
 
 
