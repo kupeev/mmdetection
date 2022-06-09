@@ -141,9 +141,10 @@ def main():
 
         cfg['runner']['max_epochs'] = 200
         if global_vars.pars.dbg1 == 1:
-            cfg['runner']['max_epochs'] = 200
+            cfg['runner']['max_epochs'] = 400
 
-        cfg['load_from'] = global_vars.pars.load_from if global_vars.pars.load_from else None
+        #cfg['load_from'] = global_vars.pars.resume_from if global_vars.pars.resume_from else None
+        cfg['resume_from'] = global_vars.pars.resume_from if global_vars.pars.resume_from else None
         tmp=10
     #if 1:
 

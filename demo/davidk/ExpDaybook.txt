@@ -1,5 +1,8 @@
 ﻿June09.2022
 
+    ls -R -l -t | grep '.py' | grep Jun
+
+    ---
     line 52 in optimizer.py
     def after_train_iter(self, runner):
         runner.optimizer.zero_grad()
