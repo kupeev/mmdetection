@@ -44,11 +44,12 @@ global_vars.pars.N2 = 0# display run of learned detector at test set
 global_vars.pars.dbg1 = 1 #cfg['runner']['max_epochs'] = 200; only regr loss
 #  None or pth
 # '/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_3.pth'
-global_vars.pars.dbg2 = 0 #prints
-global_vars.pars.dont_call__after_train_iter__hook = 1
+global_vars.pars.dbg2 = 1 #prints
+global_vars.pars.dont_call__after_train_iter__hook = 0
+global_vars.pars.dont_updete_model_strting_with = 1
 global_vars.pars.dont_shuffle = 1
-#_epoch_3,_epoch_200
-global_vars.pars.load_from = '/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_200.pth'
+#_epoch_3,_epoch_200, __epoch_10
+global_vars.pars.load_from = '/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_8.pth'
 
 global_vars.cnt = 0
 

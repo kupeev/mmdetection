@@ -1,4 +1,19 @@
-﻿June08.2022
+﻿June09.2022
+
+    line 52 in optimizer.py
+    def after_train_iter(self, runner):
+        runner.optimizer.zero_grad()
+    ---
+    before hook=<mmcv.runner.hooks.optimizer.OptimizerHook object at 0x7fcb5a433f40> torch.sum(self.model.module.bbox_head.gfl_reg.weight.flatten())=tensor(3.0700, device='cuda:0', grad_fn=<SumBackward0>)
+    after hook=<mmcv.runner.hooks.optimizer.OptimizerHook object at 0x7fcb5a433f40> torch.sum(self.model.module.bbox_head.gfl_reg.weight.flatten())=tensor(3.0699, device='cuda:0', grad_fn=<SumBackward0>)
+    ---
+    def call_hook(self, fn_name)
+    ---
+    after_train_iter, base.py:144
+    runner.log_buffer.average(self.interval)
+
+
+June08.2022
 
     build_dataloader, builder.py:184
     -----------
@@ -13,6 +28,10 @@
             getattr(hook, fn_name)(self)
 
     --------------
+
+    after_train_iter, base.py:144
+    runner.log_buffer.average(self.interval)
+
     after_train_iter, optimizer.py:53
         call_hook, base_runner.py:309
         train, epoch_based_runner.py:54
