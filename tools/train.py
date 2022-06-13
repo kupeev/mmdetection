@@ -19,7 +19,7 @@ from mmdet.models import build_detector
 from mmdet.utils import collect_env, get_root_logger, setup_multi_processes
 
 import numpy as np
-from demo.davidk.general_dk import global_vars
+from demo.davidk.general_dk import global_vars, P
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
@@ -145,6 +145,11 @@ def main():
 
         #cfg['load_from'] = global_vars.pars.resume_from if global_vars.pars.resume_from else None
         cfg['resume_from'] = global_vars.pars.resume_from if global_vars.pars.resume_from else None
+
+        if global_vars.pars.test_cfg.score_thr:
+            #cfg['model'] is cfg.model
+            cfg['model']['test_cfg']['score_thr'] = global_vars.pars.test_cfg.score_thr
+
         tmp=10
     #if 1:
 

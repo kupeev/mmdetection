@@ -1,4 +1,4 @@
-# qq
+#  qqq
 # general_dk
 # from demo.davidk.general_dk import *
 
@@ -28,19 +28,21 @@ from numpy import unravel_index
 from matplotlib.backends.backend_pdf import PdfPages
 import os
 
+import json
+
 class struct():
     pass
 
 eps = np.finfo(np.float32).eps
 
-global global_vars #usage: from demo.davidk.general_dk import global_vars
+global global_vars #usage: from demo.davidk.general_dk import global_vars, P
 
 global_vars = struct()
 global_vars.pars  = struct()
 
 global_vars.pars.out_dir = '/home/konstak/projects2/mmdetection/demo/davidk/out_dir/'
 global_vars.pars.N1 = 0# display run of teacher model at test set
-global_vars.pars.N2 = 0# display run of learned detector at test set
+global_vars.pars.N2 = 1# display run of learned detector at test set
 global_vars.pars.dbg1 = 1 #cfg['runner']['max_epochs'] = 200 or othe & only regr loss
 #  None or pth
 # '/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_3.pth'
@@ -50,10 +52,18 @@ global_vars.pars.dont_updete_model_strting_with = 0 #see the usage
 global_vars.pars.dont_shuffle = 0
 #_epoch_3,_epoch_200, __epoch_10
 global_vars.pars.resume_from = '/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_200.pth'
+global_vars.pars.test_cfg = struct()
+global_vars.pars.test_cfg.score_thr =  0.03 #None means no ioverride
 
 global_vars.cnt = 0
 
 #===========================================
+
+def P(dct):
+#pribt dict
+    if not 'dict' in str(type(dct)):
+            dct = dict(dct)
+    print(json.dumps(dct, indent=4))
 
 def find_t(val, lst):
     #find(5, [1, 2, 10]) == []

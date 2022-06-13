@@ -1,4 +1,86 @@
-﻿June09.2022
+﻿June13.2022
+
+    WTD
+        zapisat review: what was done tha lest week
+
+            [0a] restring running net
+            [0b] settng pars in conf
+            [1] display run of teacher model at test set
+                global_vars.pars.N1 = 0
+                stand:
+                    result = inference_detector(model, img)
+                    show_result_pyplot(model, img, result)
+                our
+                    feat_N1 = self.teacher_model.extract_feat(img)
+                    results_list_N1 = self.teacher_model.bbox_head.simple_test(feat_N1, img_metas, rescale=rescale)
+                        //!uses _get_bboxes_single of gfl_head uses cfg.score_thr
+
+
+
+                    bbox_results_N1 = [
+                        bbox2result(det_bboxes, det_labels, self.teacher_model.bbox_head.num_classes)
+                        for det_bboxes, det_labels in results_list_N1
+                    ]
+                    show_result_pyplot(self.teacher_model, img_metas[0]['filename'], bbox_results_N1[0],\
+            [2] display learned detector at at test set
+                global_vars.pars.N2
+
+        zapisat formingcgfpars
+        ensure chto shows bolshe
+        difduf examples: samomu i ask B
+        impl next itwems
+
+
+June12.2022
+    model = build_detector(
+        cfg.model,
+        train_cfg=cfg.get('train_cfg'),
+        test_cfg=cfg.get('test_cfg'))
+    model.init_weights()
+
+
+        __init__, single_stage.py:46
+        def build_from_cfg(cfg, registry, default_args=None):
+
+            bbox_head.update(test_cfg=test_cfg)
+            self.test_cfg = test_cfg
+
+    ===============
+    cfg.score_thr=1e-04
+    ===
+    test_cfg=dict(
+        nms_pre=1000,
+        min_bbox_size=0,
+        score_thr=0.05,
+        nms=dict(type='nms', iou_threshold=0.6),
+        max_per_img=100))
+
+    ===
+    _get_bboxes_single, gfl_head.py:427
+    =============================
+    get_bboxes, base_dense_head.py:73
+    ================
+            outs = self.forward(feats)
+            !+0
+
+            results_list = self.get_bboxes(
+                *outs, img_metas=img_metas, rescale=rescale)
+
+    ================
+    simple_test_bboxes, dense_test_mixins.py:37
+    ==================
+    simple_test, base_dense_head.py:360
+    =============================
+    forward_single, gfl_head.py:204
+
+    --------------
+    simple_test_bboxes, dense_test_mixins.py:37
+    outs = self.forward(feats)
+
+    OKO est outs
+
+
+June09.2022
 
     ls -R -l -t | grep '.py' | grep Jun
 
@@ -603,7 +685,7 @@ after self.neck
 
 eto feature pyramide  of FCOS
 
-qq
+qqq
 
     --nproc_per_node=1 --master_port=29500 ./tools/train.py configs/michael/davidk/config_ld.py --launcher pytorch
                                                             >>>>configs/michael/davidk/config_ld_double.py<<<<
@@ -635,8 +717,26 @@ qq
 
     ====
 
+    after
+
+    cfg = Config.fromfile(args.config)
+        [1]the cfg['model'] and  cfg.model is the same
+        [2] defined is cfg['model']['test_cfg']
+            from test_cfg of model in ld_r18_gflv1_r101_fpn_coco_1x.py
+
+    model = build_detector(cfg.model,
+        tam v glubine obnovlyaem self.bbox_head = build_head(bbox_head)
+        ->
+        self.bbox_head.test_cfg['score_thr']
+
+
+
+    ====
+
     saced:
     /home/konstak/projects2/mmdetection/work_dirs/config_ld_double/config_ld_double.py
 
+    ========
+    import json; print(json.dumps(cfg, indent = 4))
 
 

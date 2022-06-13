@@ -14,7 +14,7 @@ from torch.utils.data import DataLoader
 from .samplers import (DistributedGroupSampler, DistributedSampler,
                        GroupSampler, InfiniteBatchSampler,
                        InfiniteGroupBatchSampler)
-from demo.davidk.general_dk import global_vars
+from demo.davidk.general_dk import global_vars, P
 
 if platform.system() != 'Windows':
     # https://github.com/pytorch/pytorch/issues/973

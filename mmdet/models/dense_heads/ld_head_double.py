@@ -11,7 +11,7 @@ from .gfl_head import GFLHead
 import torch.nn as nn
 from mmcv.cnn import ConvModule, Scale
 
-from demo.davidk.general_dk import global_vars
+from demo.davidk.general_dk import global_vars, P
 
 @HEADS.register_module()
 class LDHeadDouble(LDHead):

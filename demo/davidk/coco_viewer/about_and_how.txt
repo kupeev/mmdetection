@@ -1,0 +1,4 @@
+https://github.com/trsvchn/coco-viewer
+
+python demo/davidk/coco_viewer/cocoviewer.py -i /home/konstak/data/mmdet/data/train/ -a /home/konstak/data/mmdet/data/train/COCO_train_annos.json
+
