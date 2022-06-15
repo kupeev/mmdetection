@@ -43,17 +43,19 @@ global_vars.pars  = struct()
 global_vars.pars.out_dir = '/home/konstak/projects2/mmdetection/demo/davidk/out_dir/'
 global_vars.pars.N1 = 0# display run of teacher model at test set
 global_vars.pars.N2 = 0# display run of learned detector at test set
-global_vars.pars.dbg1 = 0 #cfg['runner']['max_epochs'] = 200 or othe & only regr loss
+global_vars.pars.dbg1 = 1 #cfg['runner']['max_epochs'] = 200 or othe & only regr loss
 #  None or pth
 # '/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_3.pth'
 global_vars.pars.dbg2 = 0 #prints
 global_vars.pars.dbg3 = 0 #prints
+global_vars.pars.dbg3a = 1 #prints (lunch_ld)
 global_vars.pars.dbg4 = 0 #block student out
+global_vars.pars.dbg4a = 1 #block student out (ld head)
 global_vars.pars.dont_call__after_train_iter__hook = 0
 global_vars.pars.dont_updete_model_strting_with = 0 #see the usage
 global_vars.pars.dont_shuffle = 0
 #_epoch_3,_epoch_200, __epoch_10
-global_vars.pars.resume_from = '/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_3.pth'
+global_vars.pars.resume_from = None#'/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_3.pth'
 global_vars.pars.test_cfg = struct()
 global_vars.pars.test_cfg.score_thr =  0.03 #None means no ioverride
 

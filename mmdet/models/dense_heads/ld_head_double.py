@@ -67,7 +67,6 @@ class LDHeadDouble(LDHead):
             for i, _ in enumerate(outs_student[1]):
                 outs_student[1][i] = outs_student[1][i] - outs_student[1][i]
 
-
         soft_student = outs_student[1] #outs_student[0][3]: (1,80,3,13) soft_student = outs_student[1][3]: (1,68,3,13)
         # qqq
         soft_target = out_teacher[1]

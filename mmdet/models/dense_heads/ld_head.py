@@ -6,6 +6,7 @@ from mmdet.core import bbox_overlaps, multi_apply, reduce_mean
 from ..builder import HEADS, build_loss
 from .gfl_head import GFLHead
 
+from demo.davidk.general_dk import global_vars, P
 
 @HEADS.register_module()
 class LDHead(GFLHead):
@@ -140,6 +141,20 @@ class LDHead(GFLHead):
             weight=label_weights,
             avg_factor=num_total_samples)
 
+        if 1 and global_vars.pars.dbg1:
+            loss_cls = loss_cls-loss_cls
+            loss_bbox = loss_bbox-loss_bbox
+            loss_dfl = loss_dfl-loss_dfl
+            loss_ld = loss_ld-loss_ld
+        elif 0 and global_vars.pars.dbg1:
+            loss_cls = loss_cls-loss_cls
+            loss_dfl = loss_dfl-loss_dfl
+            loss_ld = loss_ld-loss_ld
+        elif 0 and global_vars.pars.dbg1:
+            loss_cls = loss_cls-loss_cls
+            loss_bbox = loss_bbox-loss_bbox
+            loss_dfl = loss_dfl-loss_dfl
+
         return loss_cls, loss_bbox, loss_dfl, loss_ld, weight_targets.sum()
 
     def forward_train(self,
@@ -173,6 +188,13 @@ class LDHead(GFLHead):
         """
 
         outs = self(x)
+
+        if global_vars.pars.dbg4a:
+            for i, _ in enumerate(outs[0]):
+                outs[0][i] = outs[0][i] - outs[0][i]
+            for i, _ in enumerate(outs[1]):
+                outs[1][i] = outs[1][i] - outs[1][i]
+
         # qqq
         soft_target = out_teacher[1]
         if gt_labels is None:
