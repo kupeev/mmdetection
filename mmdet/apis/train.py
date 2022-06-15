@@ -202,7 +202,16 @@ def train_detector(model,
         cfg.resume_from = resume_from
 
     if cfg.resume_from:
+        #torch.mean(model.module.teacher_model.bbox_head.gfl_reg.weight)         Out[6]: tensor(-1.3321e-05, device='cuda:0', grad_fn= < MeanBackward0 >)
+        #torch.mean(model.module.bbox_head.gfl_reg.weight)         Out[7]: tensor(1.9688e-05, device='cuda:0', grad_fn= < MeanBackward0 >)
+        #torch.mean(model.module.bbox_head.bbox_head_student.gfl_reg.weight)         Out[8]: tensor(-4.9652e-06, device='cuda:0', grad_fn= < MeanBackward0 >)
         runner.resume(cfg.resume_from)
+        #torch.mean(model.module.teacher_model.bbox_head.gfl_reg.weight)         Out[2]: tensor(-1.3321e-05, device='cuda:0', grad_fn= < MeanBackward0 >)
+        #torch.mean(model.module.bbox_head.gfl_reg.weight)         Out[3]: tensor(1.9618e-05, device='cuda:0', grad_fn= < MeanBackward0 >)
+        #torch.mean(model.module.bbox_head.bbox_head_student.gfl_reg.weight)         Out[4]: tensor(-4.9416e-06, device='cuda:0', grad_fn= < MeanBackward0 >)
+
+
+        tmp=10
     elif cfg.load_from:
         runner.load_checkpoint(cfg.load_from)
     runner.run(data_loaders, cfg.workflow)

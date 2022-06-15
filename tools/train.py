@@ -258,5 +258,6 @@ def main():
         validate=(not args.no_validate),
         timestamp=timestamp,
         meta=meta)
+    return
 if __name__ == '__main__':
     main()

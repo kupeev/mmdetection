@@ -60,6 +60,14 @@ class LDHeadDouble(LDHead):
 
         outs = self(x)
         outs_student = self.bbox_head_student(x)
+
+        if global_vars.pars.dbg4:
+            for i, _ in enumerate(outs_student[0]):
+                outs_student[0][i] = outs_student[0][i] - outs_student[0][i]
+            for i, _ in enumerate(outs_student[1]):
+                outs_student[1][i] = outs_student[1][i] - outs_student[1][i]
+
+
         soft_student = outs_student[1] #outs_student[0][3]: (1,80,3,13) soft_student = outs_student[1][3]: (1,68,3,13)
         # qqq
         soft_target = out_teacher[1]
@@ -275,9 +283,18 @@ class LDHeadDouble(LDHead):
             weight=label_weights,
             avg_factor=num_total_samples)
 
-        if global_vars.pars.dbg1:
+        if 0 and global_vars.pars.dbg1:
+            loss_cls = loss_cls-loss_cls
+            loss_bbox = loss_bbox-loss_bbox
+            loss_dfl = loss_dfl-loss_dfl
+            loss_ld = loss_ld-loss_ld
+        elif 0 and global_vars.pars.dbg1:
             loss_cls = loss_cls-loss_cls
             loss_dfl = loss_dfl-loss_dfl
             loss_ld = loss_ld-loss_ld
+        elif 1 and global_vars.pars.dbg1:
+            loss_cls = loss_cls-loss_cls
+            loss_bbox = loss_bbox-loss_bbox
+            loss_dfl = loss_dfl-loss_dfl
 
         return loss_cls, loss_bbox, loss_dfl, loss_ld, weight_targets.sum()

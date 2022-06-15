@@ -1,4 +1,88 @@
-﻿June13.2022
+﻿June15.2022 pivot shlita
+
+    GOP_TO 14:30:
+
+    tbd1: pochemu update loss student
+    tbd2: other
+    tbd3: overall
+
+
+June13,14.2022
+
+    WTD_NEW
+
+        1) razobratsya filling: TBD_ADD: texacher chto s nim (see qqq)
+
+
+            in train
+
+            1) TAM VNIZU GDETO KAK TO ZAPOLNYAETSYA ***
+            2) tam vnutri posle build_detector dlya tescher marked by !!! est: load_checkpoint dlya self.teacher_model
+            >>>>>  model = build_detector(
+            cfg.model,
+            train_cfg=cfg.get('train_cfg'),
+            test_cfg=cfg.get('test_cfg'))
+
+
+                super().__init__(backbone, neck, bbox_head, train_cfg, test_cfg,
+                                 pretrained, teacher_config=teacher_config)# qq double
+                -->shift
+
+                self.bbox_head = build_head(bbox_head) ## qq old
+                torch.mean(self.bbox_head.gfl_reg.weight) tensor(9.1665e-06, grad_fn=<MeanBackward0>)
+                if teacher_config and bbox_head.type == 'LDHeadDouble':
+                    self.bbox_head.bbox_head_student = build_head(bbox_head_student)
+
+                        build_from_cfg, registry.py:42
+
+                         ***
+                        __getattr__, module.py:1176
+                        name='bbox_head'
+                        aa=modules[name]
+                        torch.mean(aa.gfl_reg.weight) tensor(9.1665e-06, grad_fn=<MeanBackward0>)
+
+                torch.mean(self.bbox_head.bbox_head_student.gfl_reg.weight) tensor(5.9534e-05, grad_fn=<MeanBackward0>)
+
+
+                self.teacher_model = build_detector(teacher_config['model']) #qq teacher
+                !!!
+                #torch.mean(self.teacher_model.bbox_head.gfl_reg.weight) tensor(-1.8134e-05, grad_fn=<MeanBackward0>)
+                if teacher_ckpt is not None:
+                    load_checkpoint(
+                #torch.mean(self.teacher_model.bbox_head.gfl_reg.weight)  tensor(-1.3321e-05, grad_fn=<MeanBackward0>)
+
+
+            torch.mean(model.bbox_head.gfl_reg.weight) tensor(9.1665e-06, grad_fn=<MeanBackward0>)
+            torch.mean(model.bbox_head.bbox_head_student.gfl_reg.weight) tensor(5.9534e-05, grad_fn=<MeanBackward0>)
+
+        >>>>> model.init_weights() #affects bbox_head weights but does not affect teacher_model weights
+
+
+            init_weights, base_module.py:55
+
+            #torch.mean(self.gfl_reg.weight) Out[8]: tensor(-4.9651e-06, grad_fn=<MeanBackward0>)
+            torch.mean(model.bbox_head.gfl_reg.weight) tensor(1.9688e-05, grad_fn=<MeanBackward0>)
+            torch.mean(model.bbox_head.bbox_head_student.gfl_reg.weight)  tensor(-4.9651e-06, grad_fn=<MeanBackward0>)
+
+            #torch.mean(model.teacher_model.bbox_head.gfl_reg.weight) tensor(-1.3321e-05, grad_fn=<MeanBackward0>)
+
+
+        main, train.py:253
+        <module>, train.py:263
+        >>>>>>     train_detector(
+
+            if cfg.resume_from:
+                runner.resume(cfg.resume_from)
+            elif cfg.load_from:
+                runner.load_checkpoint(cfg.load_from)
+            runner.run(data_loaders, cfg.workflow)
+
+
+            VOPROS: why chanhes at load
+            torch.mean(model.module.bbox_head.bbox_head_student.gfl_reg.weight)         Out[4]: tensor(-4.9416e-06, device='cuda:0', grad_fn= < MeanBackward0 >)
+
+
+        2) q wth losses
 
     WTD
         zapisat review: what was done tha lest week
