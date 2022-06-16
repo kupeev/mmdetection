@@ -141,7 +141,7 @@ class LDHead(GFLHead):
             weight=label_weights,
             avg_factor=num_total_samples)
 
-        if 1 and global_vars.pars.dbg1:
+        if 0 and global_vars.pars.dbg1:
             loss_cls = loss_cls-loss_cls
             loss_bbox = loss_bbox-loss_bbox
             loss_dfl = loss_dfl-loss_dfl

@@ -1,15 +1,50 @@
-﻿June15.2022 pivot shlita
+﻿June16.2022 pivot shlita
+
+
+    V ask Boris
+    V zauchit inits
+    next step:
+        init_student_by_teacher postpopne, see p.1 of June16
+
+    ================
+    use of soft_students
+            score[pos_inds] = bbox_overlaps(
+                pos_decode_bbox_pred.detach(),
+                pos_decode_soft_students,
+                is_aligned=True)
+
+                ==> cls (qfl) loss only
+
+            pred_corners = pos_soft_students.reshape(-1, self.reg_max + 1)
+                ==> qfl loss, ld loss
+
+
+
+
+
+June15.2022 pivot shlita
 
     GOP_TO 14:30:
 
     tbd1: pochemu update loss student
     tbd2: other
+        init_student_by_teacher header as
     tbd3: overall
 
 
 June13,14.2022
 
     WTD_NEW
+
+        BL: fillings
+            1) filled in
+                build_detector
+                init_weights
+                load/resume checkpoint
+            2) teacher:
+                load techer model inside build_detector
+
+
 
         1) razobratsya filling: TBD_ADD: texacher chto s nim (see qqq)
 
@@ -54,8 +89,9 @@ June13,14.2022
 
             torch.mean(model.bbox_head.gfl_reg.weight) tensor(9.1665e-06, grad_fn=<MeanBackward0>)
             torch.mean(model.bbox_head.bbox_head_student.gfl_reg.weight) tensor(5.9534e-05, grad_fn=<MeanBackward0>)
-
+            torch.mean(model.teacher_model.bbox_head.gfl_reg.weight) tensor(-1.3321e-05, grad_fn=<MeanBackward0>)
         >>>>> model.init_weights() #affects bbox_head weights but does not affect teacher_model weights
+            [going afead: after init_weights: afrtorch.mean(model.teacher_model.bbox_head.gfl_reg.weight) tensor(-1.3321e-05, grad_fn=<MeanBackward0>)]
 
 
             init_weights, base_module.py:55
@@ -77,8 +113,6 @@ June13,14.2022
                 runner.load_checkpoint(cfg.load_from)
             runner.run(data_loaders, cfg.workflow)
 
-
-            VOPROS: why chanhes at load
             torch.mean(model.module.bbox_head.bbox_head_student.gfl_reg.weight)         Out[4]: tensor(-4.9416e-06, device='cuda:0', grad_fn= < MeanBackward0 >)
 
 

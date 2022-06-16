@@ -237,6 +237,13 @@ def main():
         test_cfg=cfg.get('test_cfg'))
     model.init_weights()
 
+    if global_vars.pars.init_student_by_teacher:
+        tmp=10
+        # TBD using
+        #   torch.mean(model.teacher_model.bbox_head.gfl_reg.weight) tensor(-1.3321e-05, grad_fn=<MeanBackward0>)
+        #   torch.mean(model.bbox_head.bbox_head_student.gfl_reg.weight)
+        #   self.teacher_model = build_detector(teacher_config['model'])
+
     datasets = [build_dataset(cfg.data.train)]
     if len(cfg.workflow) == 2:
         val_dataset = copy.deepcopy(cfg.data.val)
