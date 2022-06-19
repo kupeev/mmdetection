@@ -1,4 +1,17 @@
-﻿June16.2022 pivot shlita
+﻿June19.2022
+
+    /home/konstak/mmdet_misc_info
+
+    cfg.model['teacher_config'] = '/home/konstak/projects2/mmdetection/configs/gfl/gfl_r101_fpn_mstrain_2x_coco.py'
+            backbone=dict(
+            type='ResNet',
+            depth=101,
+
+    backbone=dict(
+        type='ResNet',
+        depth=50,
+
+June16.2022 pivot shlita
 
 
     V ask Boris

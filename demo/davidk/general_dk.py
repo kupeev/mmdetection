@@ -55,10 +55,10 @@ global_vars.pars.dont_call__after_train_iter__hook = 0
 global_vars.pars.dont_updete_model_strting_with = 0 #see the usage
 global_vars.pars.dont_shuffle = 0
 #_epoch_3,_epoch_200, __epoch_10 or None
-global_vars.pars.resume_from = '/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_200.pth'
+global_vars.pars.resume_from = None#'/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_200.pth'
 global_vars.pars.test_cfg = struct()
 global_vars.pars.test_cfg.score_thr =  0.03 #None means no ioverride
-global_vars.pars.init_student_by_teacher = 1
+global_vars.pars.init_student_by_teacher = ['backbone', 'neck', 'bbox_head']
 
 global_vars.cnt = 0
 

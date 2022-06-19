@@ -238,11 +238,28 @@ def main():
     model.init_weights()
 
     if global_vars.pars.init_student_by_teacher:
-        tmp=10
         # TBD using
         #   torch.mean(model.teacher_model.bbox_head.gfl_reg.weight) tensor(-1.3321e-05, grad_fn=<MeanBackward0>)
         #   torch.mean(model.bbox_head.bbox_head_student.gfl_reg.weight)
-        #   self.teacher_model = build_detector(teacher_config['model'])
+
+        #cfg.model['teacher_config'] = '/home/konstak/projects2/mmdetection/configs/gfl/gfl_r101_fpn_mstrain_2x_coco.py'
+        teacher_config = mmcv.Config.fromfile(cfg.model['teacher_config'])
+        teacher_model = build_detector(teacher_config['model'])
+
+        #A = model.backbone <== teacher_model.backbone
+        #B = model.neck <== teacher_model.neck
+        #C = model.bbox_head.bbox_head_student <== teacher_model.bbox_head
+
+        if 'backbone' in global_vars.pars.init_student_by_teacher:
+            #A
+            #model.backbone.load_state_dict(teacher_model.backbone.state_dict() )
+            model.backbone.my_load_state_dict(teacher_model.backbone.state_dict())
+        if 'neck' in global_vars.pars.init_student_by_teacher:
+            #B
+            model.neck.load_state_dict(teacher_model.neck.state_dict())
+        if 'bbox_head' in global_vars.pars.init_student_by_teacher:
+            #C
+            model.bbox_head.bbox_head_student.load_state_dict(teacher_model.bbox_head.state_dict())
 
     datasets = [build_dataset(cfg.data.train)]
     if len(cfg.workflow) == 2:

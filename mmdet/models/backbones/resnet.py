@@ -10,6 +10,7 @@ from torch.nn.modules.batchnorm import _BatchNorm
 from ..builder import BACKBONES
 from ..utils import ResLayer
 
+from inspect import Parameter
 
 class BasicBlock(BaseModule):
     expansion = 1
@@ -365,6 +366,18 @@ class ResNet(BaseModule):
         101: (Bottleneck, (3, 4, 23, 3)),
         152: (Bottleneck, (3, 8, 36, 3))
     }
+
+    def my_load_state_dict(self, state_dict):
+        existing_state = self.state_dict()
+        for name, weight in state_dict.items():
+            if name not in existing_state:
+                continue
+            if isinstance(weight, Parameter):
+                # backwards compatibility for serialized parameters
+                # following #following https://jimmy-shen.medium.com/pytorch-model-transfer-b0657879791d
+                weight = weight.data
+            existing_state[name].copy_(weight)
+
 
     def __init__(self,
                  depth,
