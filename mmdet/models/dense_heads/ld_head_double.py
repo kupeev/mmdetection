@@ -291,7 +291,7 @@ class LDHeadDouble(LDHead):
             loss_cls = loss_cls-loss_cls
             loss_dfl = loss_dfl-loss_dfl
             loss_ld = loss_ld-loss_ld
-        elif 1 and global_vars.pars.dbg1:
+        elif 0 and global_vars.pars.dbg1:
             loss_cls = loss_cls-loss_cls
             loss_bbox = loss_bbox-loss_bbox
             loss_dfl = loss_dfl-loss_dfl

@@ -1,4 +1,8 @@
-﻿June19.2022
+﻿June20.2022
+
+    /home/konstak/Desktop/MISC/night_run_init_student_by_teacher_Jun20.txt
+
+June19.2022
 
     /home/konstak/mmdet_misc_info
 

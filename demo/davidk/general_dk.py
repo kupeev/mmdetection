@@ -47,7 +47,7 @@ global_vars.pars.dbg1 = 1 #cfg['runner']['max_epochs'] = 200 or othe AND_OPTIONA
 #  None or pth
 # '/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_3.pth'
 global_vars.pars.dbg2 = 0 #prints
-global_vars.pars.dbg3 = 1 #prints
+global_vars.pars.dbg3 = 0 #prints
 global_vars.pars.dbg3a = 0 #prints (lunch_ld)
 global_vars.pars.dbg4 = 0 #block student out
 global_vars.pars.dbg4a = 0 #block student out (ld head)
