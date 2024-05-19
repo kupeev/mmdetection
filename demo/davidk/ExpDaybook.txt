@@ -1,4 +1,77 @@
-﻿June20.2022
+﻿
+May15.2024
+
+    mmdetection3 run test programmically
+    How to test a model with MMDetection medium
+
+May12.2024
+
+    https://mmdetection.readthedocs.io/en/latest/user_guides/test.html
+
+
+    MIGRATING FROM MMDETECTION 2.X TO 3.X
+
+        https://mmdetection.readthedocs.io/en/latest/migration/config_migration.html
+        MIGRATE CONFIGURATION FILE FROM MMDETECTION 2.X TO 3.X
+
+            the DataPreprocessor module in MMDetection 3.x.
+            The configuration for the DataPreprocessor module is located in model.data_preprocessor.
+
+                model = dict(
+                    data_preprocessor=dict(
+                        type='DetDataPreprocessor',
+                        # Image normalization parameters
+                        mean=[123.675, 116.28, 103.53],
+                        std=[58.395, 57.12, 57.375],
+                        bgr_to_rgb=True,
+                        # Image padding parameters
+                        pad_mask=True,  # In instance segmentation, the mask needs to be padded
+                        pad_size_divisor=32)  # Padding the image to multiples of 32
+                )
+
+            --
+            we have separated the normalization and padding configurations for images
+            from the train_pipeline and test_pipeline, and have placed
+            them in model.data_preprocessor instead.
+            ---
+             training, validation, and testing separately
+            in train_dataloader, val_dataloader, and test_dataloader.
+            ----
+            model accuracy evaluation is no longer tied to the dataset, but is instead
+            accomplished through the use of an Evaluator.
+
+            ************
+            THE EVALUATOR CONFIGURATION IS DIVIDED
+            INTO TWO PARTS: VAL_EVALUATOR AND TEST_EVALUATOR.
+            ************
+
+
+            ----
+            Configuration for Training and Testing
+            train_cfg = dict(
+                type='EpochBasedTrainLoop',  # Type of training loop, please refer to https://github.com/open-mmlab/mmengine/blob/main/mmengine/runner/loops.py
+                max_epochs=12,  # Maximum number of training epochs
+                val_interval=2)  # Interval for validation, check the performance every 2 epochs
+            val_cfg = dict(type='ValLoop')  # Type of validation loop
+            test_cfg = dict(type='TestLoop')  # Type of testing loop
+            -----
+            optim_wrapper: wrapper for learning params
+            ----
+            param_scheduler: bolshe shita chem lr_config
+            ----
+            Configuration for Saving Checkpoints
+                razbrelast po chooks
+            ----
+                bolshe shita: default_hooks
+            Logging Configuration
+                Use TensorBoard or WandB to visualize logs
+                    mnogo shit:
+            ---
+            Runtime Configuration:
+                chut bolsge shit
+
+
+June20.2022
 
     /home/konstak/Desktop/MISC/night_run_init_student_by_teacher_Jun20.txt
 
@@ -16,7 +89,6 @@ June19.2022
         depth=50,
 
 June16.2022 pivot shlita
-
 
     V ask Boris
     V zauchit inits

@@ -42,7 +42,7 @@ global_vars.pars  = struct()
 
 global_vars.pars.out_dir = '/home/konstak/projects2/mmdetection/demo/davidk/out_dir/'
 global_vars.pars.N1 = 0# display run of teacher model at test set
-global_vars.pars.N2 = 0# display run of learned detector at test set
+global_vars.pars.N2 = 1# display run of learned detector at test set
 global_vars.pars.dbg1 = 1 #cfg['runner']['max_epochs'] = 200 or othe AND_OPTIONALLY only regr loss
 #  None or pth
 # '/home/konstak/projects2/mmdetection/work_dirs/config_ld_double/_epoch_3.pth'

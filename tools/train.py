@@ -120,8 +120,8 @@ def main():
             train=dict(
                 type=dataset_type,
                 classes=CLASSES,
-                ann_file='/home/konstak/data/mmdet/data/train/COCO_mul_train_annos.json',
-                img_prefix='/home/konstak/data/mmdet/data/train/',
+                ann_file=['/home/konstak/data/mmdet/data/train/COCO_mul_train_annos.json','/home/konstak/data/mmdet/data/train/COCO_mul_train_annos.json'],
+                img_prefix=['/home/konstak/data/mmdet/data/train/','/home/konstak/data/mmdet/data/train/'],
                 pipeline=train_pipeline),
             val=dict(
                 type=dataset_type,

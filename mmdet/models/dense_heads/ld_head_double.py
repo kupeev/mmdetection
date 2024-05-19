@@ -14,7 +14,7 @@ from mmcv.cnn import ConvModule, Scale
 from demo.davidk.general_dk import global_vars, P
 
 @HEADS.register_module()
-class LDHeadDouble(LDHead):
+class  LDHeadDouble(LDHead):
 
     def __init__(self,
                  num_classes,

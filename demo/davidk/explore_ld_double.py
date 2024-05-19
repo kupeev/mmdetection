@@ -31,7 +31,7 @@ elif 0: #their teach student
 #--------------------------------
 # build the model from a config file and a checkpoint file
 model = init_detector(config_file, checkpoint_file, device='cuda:0')
-#--------------------------------
+#--------------------- -----------
 # test a single image
 if 0:
     img = 'demo.jpg'
